@@ -141,7 +141,7 @@ deployments:
   #           name: hyperion-api
   #       image: "gcr.io/voice-dev-infra-services/voice/voice-eos-hyperion:{{ .Values.tag }}"
   #       imagePullPolicy: Always
-  #       command: ["bash", "start.sh"]
+  #       command: ["bash", "start-hyperion.sh"]
   #       extraVars:
   #         http_proxy: http://proxy.service:3128
   #         https_proxy: http://proxy.service:3128
@@ -206,7 +206,7 @@ deployments:
             name: hyperion-api
         image: "gcr.io/voice-dev-infra-services/voice/voice-eos-hyperion:{{ .Values.tag }}"
         imagePullPolicy: Always
-        command: ["bash", "start.sh"]
+        command: ["bash", "start-hyperion.sh"]
         extraVars:
           http_proxy: http://proxy.service:3128
           https_proxy: http://proxy.service:3128

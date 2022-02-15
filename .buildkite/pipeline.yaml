@@ -1,0 +1,19 @@
+defaults:
+  agents: &default-agents
+    queue: voice-app-builder-v2
+  plugins: &default-plugins
+    - first-aml/git-clone:
+        repository: https://github.com/voice-social/voice-buildkite-template.git
+
+steps:
+  - label: ":docker: trigger docker build & push"
+    command:
+      - "buildkite-agent pipeline upload voice-buildkite-template/docker/build/template.yaml"
+    env:
+      IMAGE: gcr.io/voice-ops-dev/voice/vshipc-builder
+      TAG:  ${BUILDKITE_COMMIT}
+      DOCKERFILE: Dockerfile
+      BUILDKITE_AGENT: voice-app-builder-v2
+    agents: *default-agents
+    plugins: *default-plugins
+
