@@ -10,8 +10,8 @@ steps:
     command:
       - "buildkite-agent pipeline upload voice-buildkite-template/docker/build/template.yaml"
     env:
-      IMAGE: gcr.io/voice-ops-dev/voice/vshipc-builder
-      TAG:  ${BUILDKITE_COMMIT}
+      IMAGE: gcr.io/voice-dev-infra-services/voice/voice-eos-hyperion
+      TAG:  customexplorer
       DOCKERFILE: Dockerfile
       BUILDKITE_AGENT: voice-app-builder-v2
     agents: *default-agents
