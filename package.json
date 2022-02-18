@@ -4,7 +4,14 @@
   "description": "Official Lightweight Explorer plugin for Hyperion",
   "main": "index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "bootstrap-skaffold": "voice-generate-skaffold bootstrap",
+    "generate-skaffold": "voice-generate-skaffold generate",
+    "deploy-skaffold": "voice-deploy-skaffold",
+    "stop-skaffold": "voice-stop-skaffold",
+    "start-skaffold": "voice-start-skaffold",
+    "clean-skaffold": "voice-clean-skaffold",
+    "setup-skaffold-build": "voice-setup-skaffold-build"
   },
   "engines": {
     "node": "^16"
@@ -14,6 +21,7 @@
     "url": "https://eosrio.io"
   },
   "dependencies": {
+    "@voice-social/voice-skaffold-tools": "^1.13.0",
     "fastify-compress": "^3.6.0",
     "fastify-static": "^4.2.3"
   },
