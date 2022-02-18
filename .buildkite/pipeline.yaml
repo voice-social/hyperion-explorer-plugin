@@ -1,6 +1,6 @@
 defaults:
   agents: &default-agents
-    queue: voice-app-builder-v2
+    queue: voice-main-dev-deployer
   plugins: &default-plugins
     - first-aml/git-clone:
         repository: https://github.com/voice-social/voice-buildkite-template.git
@@ -9,25 +9,25 @@ steps:
   # - command: "yarn && yarn lint"
   #   label: ":lint-roller: Lint"
   #   agents:
-  #     queue: voice-app-builder-v2
+  #     queue: voice-main-dev-deployer
   #   if: build.tag == null
 
   # - command: "yarn fossa-scan"
   #   label: ":llama: FOSSA Scan"
   #   agents:
-  #     queue: voice-app-builder-v2
+  #     queue: voice-main-dev-deployer
   #   if: build.tag == null
 
   # - command: "yarn install && retire"
   #   label: ":llama: Retire.js Scan"
   #   agents:
-  #     queue: voice-app-builder-v2
+  #     queue: voice-main-dev-deployer
   #   if: build.tag == null
 
   # - command: "yarn && yarn test-coverage --maxWorkers 2 && zip -r coverage.zip coverage"
   #   label: ":yarn: Test"
   #   agents:
-  #     queue: voice-app-builder-v2
+  #     queue: voice-main-dev-deployer
   #   if: build.tag == null
   #   artifact_paths:
   #     - "junit.xml"
@@ -36,14 +36,14 @@ steps:
   # - command: "yarn && yarn audit"
   #   label: ":nsp: Security Audit"
   #   agents:
-  #     queue: voice-app-builder-v2
+  #     queue: voice-main-dev-deployer
   #   skip: "Skipping until lodash: https://www.npmjs.com/advisories/1523 is fixed"
   #   if: build.tag == null
 
   # - command: "yarn && yarn generate-schema -f actualSchema.graphql && yarn diff-schema"
   #   label: ":graphql: Performing comparison targetSchema.graphql to actual schema"
   #   agents:
-  #     queue: voice-app-builder-v2
+  #     queue: voice-main-dev-deployer
   #   artifact_paths:
   #     - "schemaDiff.txt"
   #     - "actualSchema.graphql"
@@ -52,7 +52,7 @@ steps:
   # - command: "yarn && yarn generate-types"
   #   label: ":typescript: Checking to see if there are pending changes to ${BUILDKITE_PIPELINE_SLUG} generated graphql types"
   #   agents:
-  #     queue: voice-app-builder-v2
+  #     queue: voice-main-dev-deployer
   #   if: build.branch != 'main' && build.tag == null
 
   # - command: "./scripts/validate-subgraph.sh -e dev"
@@ -71,7 +71,7 @@ steps:
       IMAGE: gcr.io/voice-dev-infra-services/voice/voice-eos-hyperion
       TAG: ${BUILDKITE_COMMIT}
       DOCKERFILE: Dockerfile
-      BUILDKITE_AGENT: voice-app-builder-v2
+      BUILDKITE_AGENT: voice-main-dev-deployer
     agents: *default-agents
     plugins: *default-plugins
     if: build.tag == null
@@ -81,7 +81,7 @@ steps:
   # - command: "./scripts/publish-types.sh"
   #   label: ":npm: Publishing new version of types package"
   #   agents:
-  #     queue: voice-app-builder-v2
+  #     queue: voice-main-dev-deployer
   #   artifact_paths:
   #     - "generated-types/dist/*"
   #   if: build.branch == 'main' && build.pull_request.id == null
@@ -149,7 +149,7 @@ steps:
     env:
       BASE_IMAGE: gcr.io/voice-ops-dev/voice/voice-payments-graphql:${BUILDKITE_COMMIT}
       TARGET_IMAGE: gcr.io/voice-ops-prod/voice/voice-payments-graphql:${BUILDKITE_COMMIT}
-      BUILDKITE_AGENT: voice-app-builder-v2
+      BUILDKITE_AGENT: voice-main-dev-deployer
     agents: *default-agents
     plugins: *default-plugins
     if: build.tag == null && build.branch == "main" && build.pull_request.id == null
