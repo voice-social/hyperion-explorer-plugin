@@ -13,7 +13,7 @@
           "voice-eos-hyperion-api" : {
             "containers": {
               "voice-eos-hyperion-api": {
-                "image": "gcr.io/voice-dev-infra-services/voice/voice-eos-hyperion"
+                "image": "gcr.io/voice-dev-main/voice/voice-eos-hyperion"
               }
             }
           }
@@ -21,7 +21,7 @@
       },
       "artifacts": [
         {
-          "image": "gcr.io/voice-dev-infra-services/voice/voice-eos-hyperion",
+          "image": "gcr.io/voice-dev-main/voice/voice-eos-hyperion",
           "context": ".",
           "docker": {
             "dockerfile": "Dockerfile",

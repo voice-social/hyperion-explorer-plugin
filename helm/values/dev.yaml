@@ -139,7 +139,7 @@ deployments:
           - containerPort: 7000
             protocol: TCP
             name: hyperion-api
-        image: "gcr.io/voice-dev-infra-services/voice/voice-eos-hyperion:{{ .Values.tag }}"
+        image: "gcr.io/voice-dev-main/voice/voice-eos-hyperion:{{ .Values.tag }}"
         imagePullPolicy: Always
         command: ["bash", "run.sh","voice-indexer"]
         extraVars:
@@ -198,7 +198,7 @@ deployments:
           - containerPort: 7000
             protocol: TCP
             name: hyperion-api
-        image: "gcr.io/voice-dev-infra-services/voice/voice-eos-hyperion:{{ .Values.tag }}"
+        image: "gcr.io/voice-dev-main/voice/voice-eos-hyperion:{{ .Values.tag }}"
         imagePullPolicy: Always
         command: ["bash", "run.sh","voice-api"]
         extraVars:
