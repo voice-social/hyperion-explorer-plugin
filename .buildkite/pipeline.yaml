@@ -6,39 +6,39 @@ defaults:
         repository: https://github.com/voice-social/voice-buildkite-template.git
 
 steps:
-  - command: "yarn && yarn lint"
-    label: ":lint-roller: Lint"
-    agents:
-      queue: voice-app-builder-v2
-    if: build.tag == null
+  # - command: "yarn && yarn lint"
+  #   label: ":lint-roller: Lint"
+  #   agents:
+  #     queue: voice-app-builder-v2
+  #   if: build.tag == null
 
-  - command: "yarn fossa-scan"
-    label: ":llama: FOSSA Scan"
-    agents:
-      queue: voice-app-builder-v2
-    if: build.tag == null
+  # - command: "yarn fossa-scan"
+  #   label: ":llama: FOSSA Scan"
+  #   agents:
+  #     queue: voice-app-builder-v2
+  #   if: build.tag == null
 
-  - command: "yarn install && retire"
-    label: ":llama: Retire.js Scan"
-    agents:
-      queue: voice-app-builder-v2
-    if: build.tag == null
+  # - command: "yarn install && retire"
+  #   label: ":llama: Retire.js Scan"
+  #   agents:
+  #     queue: voice-app-builder-v2
+  #   if: build.tag == null
 
-  - command: "yarn && yarn test-coverage --maxWorkers 2 && zip -r coverage.zip coverage"
-    label: ":yarn: Test"
-    agents:
-      queue: voice-app-builder-v2
-    if: build.tag == null
-    artifact_paths:
-      - "junit.xml"
-      - "coverage.zip"
+  # - command: "yarn && yarn test-coverage --maxWorkers 2 && zip -r coverage.zip coverage"
+  #   label: ":yarn: Test"
+  #   agents:
+  #     queue: voice-app-builder-v2
+  #   if: build.tag == null
+  #   artifact_paths:
+  #     - "junit.xml"
+  #     - "coverage.zip"
 
-  - command: "yarn && yarn audit"
-    label: ":nsp: Security Audit"
-    agents:
-      queue: voice-app-builder-v2
-    skip: "Skipping until lodash: https://www.npmjs.com/advisories/1523 is fixed"
-    if: build.tag == null
+  # - command: "yarn && yarn audit"
+  #   label: ":nsp: Security Audit"
+  #   agents:
+  #     queue: voice-app-builder-v2
+  #   skip: "Skipping until lodash: https://www.npmjs.com/advisories/1523 is fixed"
+  #   if: build.tag == null
 
   # - command: "yarn && yarn generate-schema -f actualSchema.graphql && yarn diff-schema"
   #   label: ":graphql: Performing comparison targetSchema.graphql to actual schema"
@@ -49,11 +49,11 @@ steps:
   #     - "actualSchema.graphql"
   #   if: build.branch != 'main' && build.tag == null
 
-  - command: "yarn && yarn generate-types"
-    label: ":typescript: Checking to see if there are pending changes to ${BUILDKITE_PIPELINE_SLUG} generated graphql types"
-    agents:
-      queue: voice-app-builder-v2
-    if: build.branch != 'main' && build.tag == null
+  # - command: "yarn && yarn generate-types"
+  #   label: ":typescript: Checking to see if there are pending changes to ${BUILDKITE_PIPELINE_SLUG} generated graphql types"
+  #   agents:
+  #     queue: voice-app-builder-v2
+  #   if: build.branch != 'main' && build.tag == null
 
   # - command: "./scripts/validate-subgraph.sh -e dev"
   #   label: ":graphql: Validating subgraph with supergraph"
