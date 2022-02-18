@@ -1,9 +1,9 @@
 ## build and push the image
 ```
     docker build -t hyperion:latest .
-    docker tag hyperion:latest gcr.io/voice-dev-main/voice/voice-eos-hyperion:latest
+    docker tag hyperion:latest gcr.io/voice-dev-infra-services/voice/voice-eos-hyperion:latest
     docker rmi hyperion:latest
-    docker push gcr.io/voice-dev-main/voice/voice-eos-hyperion:latest
+    docker push gcr.io/voice-dev-infra-services/voice/voice-eos-hyperion:latest
 ```
 
 

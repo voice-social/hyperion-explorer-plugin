@@ -68,7 +68,7 @@ steps:
     command:
       - "buildkite-agent pipeline upload voice-buildkite-template/docker/build/template.yaml"
     env:
-      IMAGE: gcr.io/voice-dev-main/voice/voice-eos-hyperion
+      IMAGE: gcr.io/voice-dev-infra-services/voice/voice-eos-hyperion
       TAG: ${BUILDKITE_COMMIT}
       DOCKERFILE: Dockerfile
       BUILDKITE_AGENT: voice-app-builder-v2
