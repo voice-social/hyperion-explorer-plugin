@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+set -x 
 
 export NO_PROXY="${KUBERNETES_SERVICE_HOST}"
 
