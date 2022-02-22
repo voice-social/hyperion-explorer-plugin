@@ -107,3 +107,5 @@ eosio
 elasticsearch
 .buildkite
 skaffold*
+
+docker-compose
