@@ -6,7 +6,6 @@
         "chartPath": "helm/",
         "upgradeOnChange": true,
         "createNamespace": true,
-        "namespace": "hyperion-history-api-testing",
         "valuesFiles": ["helm/values/local.yaml"],
         "artifactOverrides": {
           "deployments": {
