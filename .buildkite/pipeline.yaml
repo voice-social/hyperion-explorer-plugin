@@ -6,62 +6,6 @@ defaults:
         repository: https://github.com/voice-social/voice-buildkite-template.git
 
 steps:
-  # - command: "yarn && yarn lint"
-  #   label: ":lint-roller: Lint"
-  #   agents:
-  #     queue: voice-app-builder-v2
-  #   if: build.tag == null
-
-  # - command: "yarn fossa-scan"
-  #   label: ":llama: FOSSA Scan"
-  #   agents:
-  #     queue: voice-app-builder-v2
-  #   if: build.tag == null
-
-  # - command: "yarn install && retire"
-  #   label: ":llama: Retire.js Scan"
-  #   agents:
-  #     queue: voice-app-builder-v2
-  #   if: build.tag == null
-
-  # - command: "yarn && yarn test-coverage --maxWorkers 2 && zip -r coverage.zip coverage"
-  #   label: ":yarn: Test"
-  #   agents:
-  #     queue: voice-app-builder-v2
-  #   if: build.tag == null
-  #   artifact_paths:
-  #     - "junit.xml"
-  #     - "coverage.zip"
-
-  # - command: "yarn && yarn audit"
-  #   label: ":nsp: Security Audit"
-  #   agents:
-  #     queue: voice-app-builder-v2
-  #   skip: "Skipping until lodash: https://www.npmjs.com/advisories/1523 is fixed"
-  #   if: build.tag == null
-
-  # - command: "yarn && yarn generate-schema -f actualSchema.graphql && yarn diff-schema"
-  #   label: ":graphql: Performing comparison targetSchema.graphql to actual schema"
-  #   agents:
-  #     queue: voice-app-builder-v2
-  #   artifact_paths:
-  #     - "schemaDiff.txt"
-  #     - "actualSchema.graphql"
-  #   if: build.branch != 'main' && build.tag == null
-
-  # - command: "yarn && yarn generate-types"
-  #   label: ":typescript: Checking to see if there are pending changes to ${BUILDKITE_PIPELINE_SLUG} generated graphql types"
-  #   agents:
-  #     queue: voice-app-builder-v2
-  #   if: build.branch != 'main' && build.tag == null
-
-  # - command: "./scripts/validate-subgraph.sh -e dev"
-  #   label: ":graphql: Validating subgraph with supergraph"
-  #   agents:
-  #     queue: voice-infra-devel-v2
-  #   if: build.branch != 'main' && build.tag == null
-
-  - wait
 
 # build docker images
   - label: ":docker: trigger docker build hyperion-history-api"
@@ -77,17 +21,6 @@ steps:
     if: build.tag == null
 
   - wait
-
-  # - command: "./scripts/publish-types.sh"
-  #   label: ":npm: Publishing new version of types package"
-  #   agents:
-  #     queue: voice-app-builder-v2
-  #   artifact_paths:
-  #     - "generated-types/dist/*"
-  #   if: build.branch == 'main' && build.pull_request.id == null
-
-  # - wait
-
 # branches deploy
   - label: ":buildkite: Upload branches deploy pipeline"
     command: |
@@ -134,13 +67,6 @@ steps:
 
   - wait
 
-  - command: "./scripts/validate-subgraph.sh -e prod"
-    label: ":graphql: Validating subgraph with supergraph"
-    agents:
-      queue: voice-infra-prod-v2
-    if: build.tag == null && build.branch == "main" && build.pull_request.id == null
-
-  - wait
 
 # promote image
   - label: ":docker: trigger docker promote image"
