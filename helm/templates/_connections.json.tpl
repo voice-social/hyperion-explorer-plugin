@@ -22,7 +22,7 @@
     },
     "redis": {
 {{- if .Values.redis.branch  }}    
-      "host": "{{ .Values.redis.host }}.{{ .Namespace  }}.svc.cluster.local:6379",
+      "host": "{{ .Values.redis.host }}.{{ .Namespace  }}.svc.cluster.local",
       {{- else}}  
       "host": "{{ .Values.redis.host }}",
 {{- end }} 
