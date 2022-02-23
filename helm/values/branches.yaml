@@ -227,7 +227,8 @@ configmaps:
         user: ""
         pass: ""     
       redis:
-        host: "voice-redis.svc.cluster.local"
+        branch: true
+        host: "voice-redis"
         port: "6379"
       chains:
         name: "voice dev chain"

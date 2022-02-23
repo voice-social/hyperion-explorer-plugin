@@ -21,7 +21,11 @@
       "pass": "{{ .Values.elasticsearch.pass }}"
     },
     "redis": {
+{{- if .Values.redis..branch  }}    
+      "host": "{{ .Values.redis.host }}.{{ .Namespace  }}.svc.cluster.local:6379",
+      {{- else}}  
       "host": "{{ .Values.redis.host }}",
+{{- end }} 
       "port": "{{ .Values.redis.port }}"
     },
     "chains": {
