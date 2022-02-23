@@ -243,6 +243,7 @@ configmaps:
   connections:
     eos-hyperion-connections:
       elasticsearch:
+        protocol: http
         host: elastic.service
         ingest_nodes: elastic.service
         user: ""

@@ -12,7 +12,7 @@
       "frameMax": "0x10000"
     },
     "elasticsearch": {
-      "protocol": "https",
+      "protocol": "{{ .Values.elasticsearch.protocol }}",
       "host": "{{ .Values.elasticsearch.host }}",
       "ingest_nodes": [
           "{{ .Values.elasticsearch.ingest_nodes }}"

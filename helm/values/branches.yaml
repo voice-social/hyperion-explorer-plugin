@@ -222,6 +222,7 @@ configmaps:
   connections:
     eos-hyperion-connections:
       elasticsearch:
+        protocol: http
         host: elastic.service.us-west1-dev.vops.int
         ingest_nodes: elastic.service.us-west1-dev.vops.int
         user: ""
