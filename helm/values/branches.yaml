@@ -112,9 +112,9 @@ deployments:
     containers:
       redis:
         containerPorts:
-          - containerPort: 7000
+          - containerPort: 6379
             protocol: TCP
-            name: hyperion-api
+            name: redis
         image: "redis:5.0.9-alpine"
         imagePullPolicy: IfNotPresent
         extraVars:
