@@ -1,0 +1,191 @@
+---
+# Source: voice-chart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voice-eos-hyperion-api
+  labels:
+    app.kubernetes.io/name: "voice-chart"
+    helm.sh/chart: "voice-chart-0.1.1-2.0"
+    app.kubernetes.io/instance: "test"
+    app.kubernetes.io/version: "2.0"
+    app.kubernetes.io/managed-by: "Helm"
+    app: voice-eos-hyperion-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: voice-eos-hyperion-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "voice-chart"
+        helm.sh/chart: "voice-chart-0.1.1-2.0"
+        app.kubernetes.io/instance: "test"
+        app.kubernetes.io/version: "2.0"
+        app.kubernetes.io/managed-by: "Helm"
+        app: voice-eos-hyperion-api
+    spec:
+      volumes:
+      - configMap:
+          name: eos-hyperion-api-config
+        name: eos-hyperion-api-config
+      - configMap:
+          name: eos-hyperion-connections
+        name: eos-hyperion-connections
+      initContainers:
+      - name: "check-hyperion-rabbit-mq-health"
+        image: "gcr.io/voice-dev-infra-services/auto-init-container/auto-init-container:latest"
+        imagePullPolicy: "Always"
+        command:
+        - bash
+        - check-rabbit-mq-health.sh
+        - voice-hyperion-rabbit-mq.test.svc.cluster.local
+        env:
+        - name: "pass"
+          value: "voice"
+        - name: "user"
+          value: "voice"
+        - name: "vhost"
+          value: "voice"
+      containers:
+      - name: "voice-eos-hyperion-api"
+        image: "gcr.io/voice-dev-infra-services/voice/voice-eos-hyperion:latest"
+        imagePullPolicy: "Always"
+        command:
+        - bash
+        - run.sh
+        - voice-api
+        ports:
+        - containerPort: 7000
+          name: hyperion-api
+          protocol: TCP
+        volumeMounts:
+        - mountPath: hyperion-history-api/connections.json
+          name: eos-hyperion-connections
+          readOnly: false
+          subPath: connections.json
+        - mountPath: hyperion-history-api/chains/voice.config.json
+          name: eos-hyperion-api-config
+          readOnly: false
+          subPath: voice.config.json
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: POD_SERVICE_ACCOUNT
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.serviceAccountName
+        - name: "http_proxy"
+          value: "http://proxy.service:3128"
+        - name: "https_proxy"
+          value: "http://proxy.service:3128"
+        - name: "no_proxy"
+          value: ".svc.cluster.local,.service,.internal,.vops.int,metadata.google.internal"
+        livenessProbe:
+          httpGet:
+            path: /v2/health
+            port: 7000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /v2/health
+            port: 7000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 250m
+            memory: 256Mi
+          requests:
+            cpu: 250m
+            memory: 256Mi
+      tolerations:
+        - effect: NoSchedule
+          key: cloud.google.com/gke-preemptible
+          operator: Equal
+          value: "true"
+---
+# Source: voice-chart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voice-redis
+  labels:
+    app.kubernetes.io/name: "voice-chart"
+    helm.sh/chart: "voice-chart-0.1.1-2.0"
+    app.kubernetes.io/instance: "test"
+    app.kubernetes.io/version: "2.0"
+    app.kubernetes.io/managed-by: "Helm"
+    app: voice-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: voice-redis
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "voice-chart"
+        helm.sh/chart: "voice-chart-0.1.1-2.0"
+        app.kubernetes.io/instance: "test"
+        app.kubernetes.io/version: "2.0"
+        app.kubernetes.io/managed-by: "Helm"
+        app: voice-redis
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: "voice-redis"
+        image: "redis:5.0.9-alpine"
+        imagePullPolicy: "IfNotPresent"
+        ports:
+        - containerPort: 6379
+          name: voice-redis
+          protocol: TCP
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: POD_SERVICE_ACCOUNT
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.serviceAccountName
+        - name: "http_proxy"
+          value: "http://proxy.service:3128"
+        - name: "https_proxy"
+          value: "http://proxy.service:3128"
+        - name: "no_proxy"
+          value: ".svc.cluster.local,.service,.internal,.vops.int,metadata.google.internal"
+      tolerations:
+        - effect: NoSchedule
+          key: cloud.google.com/gke-preemptible
+          operator: Equal
+          value: "true"

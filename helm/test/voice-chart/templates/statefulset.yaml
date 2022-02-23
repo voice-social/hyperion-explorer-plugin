@@ -1,0 +1,66 @@
+---
+# Source: voice-chart/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: voice-hyperion-rabbit-mq
+  labels:
+    app.kubernetes.io/authority: voice-eos-hyperion
+    app.kubernetes.io/branch: master
+    app.kubernetes.io/component: voice-hyperion-rabbit-mq
+    app.kubernetes.io/instance: voice-hyperion-rabbit-mq
+    app.kubernetes.io/name: voice
+    service: voice-hyperion-rabbit-mq
+spec:
+  replicas: 1
+  serviceName: rabbit-mq-headless
+  updateStrategy:
+    rollingUpdate:
+      partition: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      service: voice-hyperion-rabbit-mq
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/authority: voice-eos-hyperion
+        app.kubernetes.io/branch: master
+        app.kubernetes.io/component: voice-hyperion-rabbit-mq
+        app.kubernetes.io/instance: voice-hyperion-rabbit-mq
+        app.kubernetes.io/name: voice
+        service: voice-hyperion-rabbit-mq
+    spec:
+      containers:
+      - name: voice-hyperion-rabbit-mq
+        image: "rabbitmq:3.9.11-management-alpine"
+        imagePullPolicy: "IfNotPresent"
+        env:
+        - name: "RABBITMQ_DEFAULT_PASS"
+          value: "voice"
+        - name: "RABBITMQ_DEFAULT_USER"
+          value: "voice"
+        - name: "RABBITMQ_DEFAULT_VHOST"
+          value: "voice"
+      tolerations:
+      - effect: NoSchedule
+        key: cloud.google.com/gke-preemptible
+        operator: Equal
+        value: "true"
+  volumeClaimTemplates:
+  - metadata:
+      labels:
+        app.kubernetes.io/authority: voice-eos-hyperion
+        app.kubernetes.io/branch: master
+        app.kubernetes.io/chain: voice-hyperion-rabbit-mq
+        app.kubernetes.io/component: voice-eos-hyperion
+        app.kubernetes.io/instance: voice-hyperion-rabbit-mq
+        app.kubernetes.io/name: voice
+      name: rabbit-mq-data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 256Gi
+      storageClassName: standard

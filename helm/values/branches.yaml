@@ -220,7 +220,7 @@ configmaps:
         ingest_nodes: elastic.service
         user: ""
         pass: ""     
-      voice-redis:
+      redis:
         host: "redis"
         port: "6379"
       chains:
