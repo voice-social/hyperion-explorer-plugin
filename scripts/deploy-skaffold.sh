@@ -2,7 +2,7 @@
 set -e
 set -x 
 
-export NO_PROXY="${KUBERNETES_SERVICE_HOST}"
+export NO_PROXY="${NO_PROXY},${KUBERNETES_SERVICE_HOST}"
 
 yarn global add @voice-social/voice-skaffold-tools@latest
 
