@@ -7,7 +7,7 @@
         "upgradeOnChange": true,
         "createNamespace": true,
         "wait": false,
-        "valuesFiles": ["helm/values/local.yaml"],
+        "valuesFiles": ["helm/values/branches.yaml"],
         "setValueTemplates": {
           "tag": "{{ .IMAGE_TAG }}"
         }
