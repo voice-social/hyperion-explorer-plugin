@@ -133,7 +133,7 @@ deployments:
         image: "redis:5.0.9-alpine"
         imagePullPolicy: IfNotPresent
         extraVars:
-http_proxy: http://proxy.service:3128
+          http_proxy: http://proxy.service:3128
           https_proxy: http://proxy.service:3128 
           GLOBAL_AGENT_HTTP_PROXY: http://proxy.service:3128 
           GLOBAL_AGENT_HTTPS_PROXY: http://proxy.service:3128 
