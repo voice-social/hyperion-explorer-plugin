@@ -17,19 +17,7 @@
               }
             }
           }
-        },
-        "artifacts": [
-          {
-            "image": "gcr.io/voice-dev-infra-services/voice/voice-eos-hyperion",
-            "context": ".",
-            "docker": {
-              "dockerfile": "Dockerfile",
-              "buildArgs": {
-                "NPM_AUTH_TOKEN": "{{.NPM_AUTH_TOKEN}}"
-              }
-            }
-          }
-        ]
+        }
       }
     ],
     "helm": {
