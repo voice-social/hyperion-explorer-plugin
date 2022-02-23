@@ -206,7 +206,7 @@ configmaps:
         user: ""
         pass: ""     
       redis:
-        host: "172.31.32.12"
+        host: "redis"
         port: "6379"
       chains:
         name: "voice dev chain"
