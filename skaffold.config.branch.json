@@ -6,17 +6,10 @@
         "chartPath": "helm/",
         "upgradeOnChange": true,
         "createNamespace": true,
+        "wait": false,
         "valuesFiles": ["helm/values/local.yaml"],
-        "artifactOverrides": {
-          "deployments": {
-            "voice-eos-hyperion-api" : {
-              "containers": {
-                "voice-eos-hyperion-api": {
-                  "image": "gcr.io/voice-dev-infra-services/voice/voice-eos-hyperion"
-                }
-              }
-            }
-          }
+        "setValueTemplates": {
+          "tag": "{{ .IMAGE_TAG }}"
         }
       }
     ],

@@ -3,3 +3,6 @@
 hyperion-explorer/node_modules
 hyperion-explorer/.idea
 .DS_Store
+skaffold.yaml
+skaffold-build
+node_modules
