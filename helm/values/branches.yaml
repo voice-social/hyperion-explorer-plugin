@@ -30,7 +30,7 @@ services:
       app.kubernetes.io/component: "voice-hyperion-redis"
     type: ClusterIP
     customSelectors: 
-      service: "redis"
+      app: "voice-redis"
     ports:
       - port: 6379
         targetPort: 6379
