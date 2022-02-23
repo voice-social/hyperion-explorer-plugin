@@ -222,12 +222,12 @@ configmaps:
   connections:
     eos-hyperion-connections:
       elasticsearch:
-        host: elastic.service
-        ingest_nodes: elastic.service
+        host: elastic.service.us-west1-dev.vops.int
+        ingest_nodes: elastic.service.us-west1-dev.vops.int
         user: ""
         pass: ""     
       redis:
-        host: "redis"
+        host: "voice-redis.svc.cluster.local"
         port: "6379"
       chains:
         name: "voice dev chain"
