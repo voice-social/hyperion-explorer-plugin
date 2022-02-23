@@ -21,6 +21,21 @@ services:
         protocol: TCP
         name: hyperion-api
         nodePort: 30032
+  voice-redis:
+    customLabels:
+      app.kubernetes.io/name: voice
+      app.kubernetes.io/instance: "voice-redis"
+      app.kubernetes.io/branch: "master"
+      app.kubernetes.io/authority: "voice-eos-redis"
+      app.kubernetes.io/component: "voice-hyperion-redis"
+    type: ClusterIP
+    customSelectors: 
+      service: "redis"
+    ports:
+      - port: 6379
+        targetPort: 6379
+        protocol: TCP
+        name: voice-redis
 
   voice-hyperion-rabbit-mq:
     customLabels:
@@ -99,7 +114,7 @@ statefulsets:
           RABBITMQ_DEFAULT_PASS: voice
 
 deployments:
-  redis:
+  voice-redis:
     replicaCount: 1
     terminationGracePeriodSeconds: 60
     tolerations:
@@ -110,11 +125,11 @@ deployments:
     nodeSelector:
       cloud.google.com/gke-preemptible: "true"        
     containers:
-      redis:
+      voice-redis:
         containerPorts:
           - containerPort: 6379
             protocol: TCP
-            name: redis
+            name: voice-redis
         image: "redis:5.0.9-alpine"
         imagePullPolicy: IfNotPresent
         extraVars:
@@ -205,7 +220,7 @@ configmaps:
         ingest_nodes: elastic.service
         user: ""
         pass: ""     
-      redis:
+      voice-redis:
         host: "redis"
         port: "6379"
       chains:
