@@ -13,6 +13,8 @@ class Explorer extends hyperion_plugin_1.HyperionPlugin {
     constructor(config) {
         super(config);
         this.internalPluginName = 'explorer';
+        this.apiPlugin = true;
+        this.indexerPlugin = false;
         this.hasApiRoutes = true;
         if (this.baseConfig) {
             this.pluginConfig = this.baseConfig;
@@ -27,15 +29,15 @@ class Explorer extends hyperion_plugin_1.HyperionPlugin {
     async fetchChainLogo() {
         try {
             if (this.pluginConfig.chain_logo_url) {
-                (0, common_functions_1.hLog)(`Downloading chain logo from ${this.pluginConfig.chain_logo_url}...`);
-                const chainLogo = await (0, got_1.default)(this.pluginConfig.chain_logo_url);
-                const path = (0, path_1.join)(__dirname, 'dist', 'assets', this.chainName + '_logo.png');
-                (0, fs_1.writeFileSync)(path, chainLogo.rawBody);
+                common_functions_1.hLog(`Downloading chain logo from ${this.pluginConfig.chain_logo_url}...`);
+                const chainLogo = await got_1.default(this.pluginConfig.chain_logo_url);
+                const path = path_1.join(__dirname, 'dist', 'assets', this.chainName + '_logo.png');
+                fs_1.writeFileSync(path, chainLogo.rawBody);
                 this.pluginConfig.chain_logo_url = 'https://' + this.pluginConfig.server_name + '/v2/explore/assets/' + this.chainName + '_logo.png';
             }
         }
         catch (e) {
-            (0, common_functions_1.hLog)(e);
+            common_functions_1.hLog(e);
         }
     }
     addRoutes(server) {
@@ -45,13 +47,13 @@ class Explorer extends hyperion_plugin_1.HyperionPlugin {
         const manifestName = `Hyperion Explorer - ${manager.config.api.chain_name}`;
         server.register(require('fastify-compress'), { global: false });
         try {
-            const webManifestPath = (0, path_1.join)(__dirname, 'hyperion-explorer', 'src', 'manifest.webmanifest');
-            if ((0, fs_1.existsSync)(webManifestPath)) {
-                const _data = (0, fs_1.readFileSync)(webManifestPath);
-                const tempPath = (0, path_1.join)(__dirname, 'dist', 'manifest.webmanifest');
-                if ((0, fs_1.existsSync)(tempPath)) {
+            const webManifestPath = path_1.join(__dirname, 'hyperion-explorer', 'src', 'manifest.webmanifest');
+            if (fs_1.existsSync(webManifestPath)) {
+                const _data = fs_1.readFileSync(webManifestPath);
+                const tempPath = path_1.join(__dirname, 'dist', 'manifest.webmanifest');
+                if (fs_1.existsSync(tempPath)) {
                     console.log('Remving compiled manifest');
-                    (0, fs_1.unlinkSync)(tempPath);
+                    fs_1.unlinkSync(tempPath);
                 }
                 const baseManifest = JSON.parse(_data.toString());
                 baseManifest.name = manifestName;
@@ -61,7 +63,7 @@ class Explorer extends hyperion_plugin_1.HyperionPlugin {
                 });
             }
             else {
-                (0, common_functions_1.hLog)('manifest.webmanifest not found in source, using fallback!');
+                common_functions_1.hLog('manifest.webmanifest not found in source, using fallback!');
                 const _p = "maskable any";
                 const _t = "image/png";
                 const fallbackData = {
@@ -89,7 +91,7 @@ class Explorer extends hyperion_plugin_1.HyperionPlugin {
             console.log(e);
         }
         server.register(fastify_static_1.default, {
-            root: (0, path_1.join)(__dirname, 'dist'),
+            root: path_1.join(__dirname, 'dist'),
             redirect: true,
             wildcard: false,
             prefix: '/v2/explore',
@@ -100,11 +102,11 @@ class Explorer extends hyperion_plugin_1.HyperionPlugin {
             }
         });
         server.get('/v2/explore/**/*', (request, reply) => {
-            reply.sendFile('index.html', (0, path_1.join)(__dirname, 'dist'));
+            reply.sendFile('index.html', path_1.join(__dirname, 'dist'));
         });
         server.get('/v2/explorer_metadata', (request, reply) => {
             reply.send({
-                logo: apiConfig.chain_logo_url,
+                logo: this.pluginConfig.chain_logo_url,
                 provider: apiConfig.provider_name,
                 provider_url: apiConfig.provider_url,
                 chain_name: apiConfig.chain_name,

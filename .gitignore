@@ -2,6 +2,7 @@
 /.idea
 hyperion-explorer/node_modules
 hyperion-explorer/.idea
+hyperion-explorer/dist
 .DS_Store
 node_modules
 docker

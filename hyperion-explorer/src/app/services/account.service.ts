@@ -112,7 +112,7 @@ export class AccountService {
   getServerUrl(): void {
     let server;
     if (environment.production) {
-      server = window.location.origin;
+      server = environment.eosioNodeUrl;
     } else {
       server = environment.hyperionApiUrl;
     }
