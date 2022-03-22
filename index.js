@@ -13,6 +13,8 @@ class Explorer extends hyperion_plugin_1.HyperionPlugin {
     constructor(config) {
         super(config);
         this.internalPluginName = 'explorer';
+        this.apiPlugin = true;
+        this.indexerPlugin = false;
         this.hasApiRoutes = true;
         if (this.baseConfig) {
             this.pluginConfig = this.baseConfig;
@@ -104,7 +106,7 @@ class Explorer extends hyperion_plugin_1.HyperionPlugin {
         });
         server.get('/v2/explorer_metadata', (request, reply) => {
             reply.send({
-                logo: apiConfig.chain_logo_url,
+                logo: this.pluginConfig.chain_logo_url,
                 provider: apiConfig.provider_name,
                 provider_url: apiConfig.provider_url,
                 chain_name: apiConfig.chain_name,

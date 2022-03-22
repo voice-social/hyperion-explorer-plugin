@@ -79,8 +79,8 @@ services:
     container_name: hyperion-indexer
     build:
       context: .
-      args: 
-        - NPM_AUTH_TOKEN=${NPM_AUTH_TOKEN}    
+      args:
+        - NPM_AUTH_TOKEN=${NPM_AUTH_TOKEN}
     restart: on-failure
     depends_on:
       - elasticsearch
@@ -99,9 +99,9 @@ services:
 
   hyperion-api:
     container_name: hyperion-api
-    build: 
+    build:
       context: .
-      args: 
+      args:
         - NPM_AUTH_TOKEN=${NPM_AUTH_TOKEN}
     restart: on-failure
     ports:

@@ -21,7 +21,9 @@ RUN mv plugins/repos/explorer/.npmrc.template plugins/repos/explorer/.npmrc && \
     ./hpm enable explorer && \
     ./hpm list && \
     ./hpm state && \
-    pm2 startup
+    pm2 startup \
+    && tsc --project plugins/repos/explorer/hyperion-explorer/tsconfig.json && tsc --project plugins/repos/explorer/tsconfig.json
+
 
 RUN adduser --system --group voice && chown -R voice:voice /hyperion-history-api
 USER voice
