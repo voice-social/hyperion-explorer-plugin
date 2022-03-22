@@ -4,7 +4,7 @@ ARG NPM_AUTH_TOKEN
 RUN apt-get update \
         && apt-get upgrade -y \
         && apt-get autoremove \
-        && apt-get install -y build-essential git curl netcat  && \
+        && apt-get install -y build-essential git curl netcat && \
         git clone https://github.com/voice-social/hyperion-history-api.git && \
         curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
         apt-get install -y nodejs && npm install pm2@latest -g && npm install -g typescript && \
@@ -21,8 +21,7 @@ RUN mv plugins/repos/explorer/.npmrc.template plugins/repos/explorer/.npmrc && \
     ./hpm enable explorer && \
     ./hpm list && \
     ./hpm state && \
-    pm2 startup \
-    &&  tsc --project  plugins/repos/explorer/tsconfig.json
+    pm2 startup
 
 RUN adduser --system --group voice && chown -R voice:voice /hyperion-history-api
 USER voice
