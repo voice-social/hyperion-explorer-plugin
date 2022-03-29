@@ -25,6 +25,7 @@ COPY .npmrc.template .npmrc
 
 RUN npm install
 
+
 RUN adduser --system --group voice && chown -R voice:voice /hyperion-history-api
 USER voice
 # RUN  npm install
