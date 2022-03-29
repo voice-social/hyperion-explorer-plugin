@@ -15,15 +15,15 @@ RUN git checkout voice-main
 COPY . /hyperion-history-api/plugins/repos/explorer
 COPY .npmrc.template .npmrc
 # COPY config/$env/start.sh ./
-# RUN mv plugins/repos/explorer/.npmrc.template plugins/repos/explorer/.npmrc && \
-#     npm install  && \
-#     ./hpm build-all  && \
-#     ./hpm enable explorer && \
-#     ./hpm list && \
-#     ./hpm state && \
-#     pm2 startup
+RUN mv plugins/repos/explorer/.npmrc.template plugins/repos/explorer/.npmrc && \
+    npm install  && \
+    ./hpm build-all  && \
+    ./hpm enable explorer && \
+    ./hpm list && \
+    ./hpm state && \
+    pm2 startup
 
-RUN npm install
+# RUN npm install
 
 
 RUN adduser --system --group voice && chown -R voice:voice /hyperion-history-api
