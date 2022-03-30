@@ -200,6 +200,12 @@ deployments:
         command: ['bash','check-rabbit-mq-health.sh','voice-hyperion-rabbit-mq.{{ .Release.Namespace }}.svc.cluster.local']
     containers:
       voice-eos-hyperion-api:
+        livenessProbe:
+          httpGet:
+            path: /v2/health
+            port: 7000
+          periodSeconds: 10
+          initialDelaySeconds: 10
         readinessProbe:
           httpGet:
             path: /v2/health
@@ -247,6 +253,7 @@ deployments:
             mountPath: /tmp/voice.config.json
             subPath: voice.config.json
             readOnly: false
+
 hpas:
   voice-eos-hyperion-api:
     minReplicas: 1
