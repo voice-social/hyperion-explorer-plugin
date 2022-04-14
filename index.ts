@@ -3,7 +3,7 @@ import {existsSync, readFileSync, unlinkSync, writeFileSync} from "fs";
 import {join} from "path";
 import fastifyStatic from "fastify-static";
 import {ServerResponse} from "http";
-import {hLog} from "../../../helpers/common_functions";
+import {hLog} from "./hyperion-explorer/src/app/utils/utils";
 import got from "got";
 import {HyperionPlugin} from "../../hyperion-plugin";
 
