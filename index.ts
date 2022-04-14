@@ -3,8 +3,8 @@ import {existsSync, readFileSync, unlinkSync, writeFileSync} from "fs";
 import {join} from "path";
 import fastifyStatic from "fastify-static";
 import {ServerResponse} from "http";
-import { HyperionPlugin } from "./hyperion-explorer/plugins/hyperion-plugin";
 import { hLog } from './hyperion-explorer/src/app/utils/utils'
+import {HyperionPlugin} from "../../hyperion-plugin";
 
 export interface ExplorerConfig {
     chain_logo_url: string;
