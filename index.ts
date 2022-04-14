@@ -12,7 +12,7 @@ export interface ExplorerConfig {
     server_name: string;
 }
 
-export default class Explorer extends HyperionPlugin {
+export default class Explorer extends HyperionPlugin  {
     internalPluginName = 'explorer';
     apiPlugin = true;
     indexerPlugin = false;
@@ -21,6 +21,7 @@ export default class Explorer extends HyperionPlugin {
 
     constructor(config: ExplorerConfig) {
         super(config);
+
         if (this.baseConfig) {
             this.pluginConfig = this.baseConfig;
             if (process.title.endsWith('api')) {
@@ -30,12 +31,17 @@ export default class Explorer extends HyperionPlugin {
     }
 
     apiInit() {
-        this.fetchChainLogo().catch(console.log);
+        try {
+            this.fetchChainLogo().catch(console.log);
+        } catch (err) {
+            hLog(`error on api init ${err}`)
+        }
     }
 
     async fetchChainLogo() {
         try {
             if (this.pluginConfig.chain_logo_url) {
+                const { got } = await import('got')
                 hLog(`Downloading chain logo from ${this.pluginConfig.chain_logo_url}...`);
                 const chainLogo = await got(this.pluginConfig.chain_logo_url);
                 const path = join(__dirname, 'dist', 'assets', this.chainName + '_logo.png');
@@ -43,7 +49,7 @@ export default class Explorer extends HyperionPlugin {
                 this.pluginConfig.chain_logo_url = 'https://' + this.pluginConfig.server_name + '/v2/explore/assets/' + this.chainName + '_logo.png';
             }
         } catch (e) {
-            hLog(e);
+            hLog(`error fetching logo ${e}`);
         }
     }
 
@@ -61,7 +67,7 @@ export default class Explorer extends HyperionPlugin {
                 const _data = readFileSync(webManifestPath);
                 const tempPath = join(__dirname, 'dist', 'manifest.webmanifest');
                 if (existsSync(tempPath)) {
-                    console.log('Remving compiled manifest');
+                    hLog('Remving compiled manifest');
                     unlinkSync(tempPath);
                 }
                 const baseManifest = JSON.parse(_data.toString());
@@ -95,7 +101,7 @@ export default class Explorer extends HyperionPlugin {
                 });
             }
         } catch (e) {
-            console.log(e);
+            hLog(`failed to add routes ${e}`);
         }
 
 
