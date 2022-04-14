@@ -3,8 +3,10 @@ import {existsSync, readFileSync, unlinkSync, writeFileSync} from "fs";
 import {join} from "path";
 import fastifyStatic from "fastify-static";
 import {ServerResponse} from "http";
+//@ts-ignore
 import {hLog} from "../../../helpers/common_functions";
 import got from "got";
+//@ts-ignore
 import {HyperionPlugin} from "../../hyperion-plugin";
 
 export interface ExplorerConfig {
