@@ -50,6 +50,7 @@ export default class Explorer extends HyperionPlugin {
     }
 
     addRoutes(server: FastifyInstance): void {
+        server as FastifyInstance
         // @ts-ignore
         const manager = server.manager;
         const apiConfig = manager.config.api;
