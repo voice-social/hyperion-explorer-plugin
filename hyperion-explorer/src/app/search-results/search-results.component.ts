@@ -6,8 +6,8 @@ import {SearchService} from '../services/search.service';
 import {AccountService} from '../services/account.service';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import {ChainService} from '../services/chain.service';
-import { LaunchDarklyService } from 'src/app/services/launch-darkly/launch-darkly.service';
-import { FeatureFlagName } from 'src/app/services/launch-darkly/featureFlags';
+import { LaunchDarklyService } from '../services/launch-darkly/launch-darkly.service';
+import { FeatureFlagName } from '../services/launch-darkly/featureFlags';
 
 @Component({
   selector: 'app-search-results',
@@ -56,13 +56,13 @@ export class SearchResultsComponent implements OnInit {
     this.searchForm.get('search_field').valueChanges.pipe(debounceTime(300)).subscribe(async (result) => {
       this.filteredAccounts = await this.searchService.filterAccountNames(result);
     });
-    this.isQueryingByBlockNumberEnabled =
-      await this.featureFlagClient.variation(
-        FeatureFlagName.IsQueryingByBlockNumberEnabled
-      );
+    this.isQueryingByBlockNumberEnabled = false
+      // await this.featureFlagClient.variation(
+      //   FeatureFlagName.IsQueryingByBlockNumberEnabled
+      // );
     if (this.isQueryingByBlockNumberEnabled) {
       this.placeholders.push('Search by block number...');
-    } 
+    }
   }
 
   async submit(): Promise<boolean> {
