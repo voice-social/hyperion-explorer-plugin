@@ -3,8 +3,10 @@ import {existsSync, readFileSync, unlinkSync, writeFileSync} from "fs";
 import {join} from "path";
 import fastifyStatic from "fastify-static";
 import {ServerResponse} from "http";
+//@ts-ignore
 import {hLog} from "../../../helpers/common_functions";
 import got from "got";
+//@ts-ignore
 import {HyperionPlugin} from "../../hyperion-plugin";
 
 export interface ExplorerConfig {
@@ -21,7 +23,9 @@ export default class Explorer extends HyperionPlugin {
 
     constructor(config: ExplorerConfig) {
         super(config);
+        //@ts-ignore
         if (this.baseConfig) {
+            //@ts-ignore
             this.pluginConfig = this.baseConfig;
             if (process.title.endsWith('api')) {
                 this.apiInit();
@@ -38,8 +42,10 @@ export default class Explorer extends HyperionPlugin {
             if (this.pluginConfig.chain_logo_url) {
                 hLog(`Downloading chain logo from ${this.pluginConfig.chain_logo_url}...`);
                 const chainLogo = await got(this.pluginConfig.chain_logo_url);
+                //@ts-ignore
                 const path = join(__dirname, 'dist', 'assets', this.chainName + '_logo.png');
                 writeFileSync(path, chainLogo.rawBody);
+                //@ts-ignore
                 this.pluginConfig.chain_logo_url = 'https://' + this.pluginConfig.server_name + '/v2/explore/assets/' + this.chainName + '_logo.png';
             }
         } catch (e) {
