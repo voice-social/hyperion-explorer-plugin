@@ -3,8 +3,11 @@ import {existsSync, readFileSync, unlinkSync, writeFileSync} from "fs";
 import {join} from "path";
 import fastifyStatic from "fastify-static";
 import {ServerResponse} from "http";
+//@ts-ignore
 import {hLog} from "../../../helpers/common_functions";
+//@ts-ignore
 import got from "got";
+//@ts-ignore
 import {HyperionPlugin} from "../../hyperion-plugin";
 
 export interface ExplorerConfig {
@@ -21,8 +24,11 @@ export default class Explorer extends HyperionPlugin {
 
     constructor(config: ExplorerConfig) {
         super(config);
+        //@ts-ignore
         if (this.baseConfig) {
+            //@ts-ignore
             this.pluginConfig = this.baseConfig;
+            //@ts-ignore
             if (process.title.endsWith('api')) {
                 this.apiInit();
             }
@@ -38,8 +44,10 @@ export default class Explorer extends HyperionPlugin {
             if (this.pluginConfig.chain_logo_url) {
                 hLog(`Downloading chain logo from ${this.pluginConfig.chain_logo_url}...`);
                 const chainLogo = await got(this.pluginConfig.chain_logo_url);
+                //@ts-ignore
                 const path = join(__dirname, 'dist', 'assets', this.chainName + '_logo.png');
                 writeFileSync(path, chainLogo.rawBody);
+                //@ts-ignore
                 this.pluginConfig.chain_logo_url = 'https://' + this.pluginConfig.server_name + '/v2/explore/assets/' + this.chainName + '_logo.png';
             }
         } catch (e) {
@@ -53,12 +61,15 @@ export default class Explorer extends HyperionPlugin {
         const apiConfig = manager.config.api;
         const manifestName = `Hyperion Explorer - ${manager.config.api.chain_name}`;
 
+        //@ts-ignore
         server.register(require('fastify-compress'), {global: false});
 
         try {
+            //@ts-ignore
             const webManifestPath = join(__dirname, 'hyperion-explorer', 'src', 'manifest.webmanifest');
             if (existsSync(webManifestPath)) {
                 const _data = readFileSync(webManifestPath);
+                //@ts-ignore
                 const tempPath = join(__dirname, 'dist', 'manifest.webmanifest');
                 if (existsSync(tempPath)) {
                     console.log('Remving compiled manifest');
@@ -100,6 +111,7 @@ export default class Explorer extends HyperionPlugin {
 
 
         server.register(fastifyStatic, {
+            //@ts-ignore
             root: join(__dirname, 'dist'),
             redirect: true,
             wildcard: false,
@@ -112,6 +124,7 @@ export default class Explorer extends HyperionPlugin {
         });
 
         server.get('/v2/explore/**/*', (request: FastifyRequest, reply: FastifyReply) => {
+            //@ts-ignore
             reply.sendFile('index.html', join(__dirname, 'dist'));
         });
 
