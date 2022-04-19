@@ -9,6 +9,3 @@ steps:
   - label: ":buildkite: Trigger API build"
     trigger: hyperion-history-api
     if: build.tag == null && build.branch == "master" && build.pull_request.id == null
-    retry:
-      manual:
-        permit_on_passed: true
