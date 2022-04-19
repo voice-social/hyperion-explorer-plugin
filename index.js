@@ -7,7 +7,6 @@ const fs_1 = require("fs");
 const path_1 = require("path");
 const fastify_static_1 = __importDefault(require("fastify-static"));
 const common_functions_1 = require("../../../helpers/common_functions");
-const got_1 = __importDefault(require("got"));
 const hyperion_plugin_1 = require("../../hyperion-plugin");
 class Explorer extends hyperion_plugin_1.HyperionPlugin {
     constructor(config) {
@@ -28,6 +27,7 @@ class Explorer extends hyperion_plugin_1.HyperionPlugin {
     }
     async fetchChainLogo() {
         try {
+            const got_1 = await __importDefault(require("got"));
             if (this.pluginConfig.chain_logo_url) {
                 (0, common_functions_1.hLog)(`Downloading chain logo from ${this.pluginConfig.chain_logo_url}...`);
                 const chainLogo = await (0, got_1.default)(this.pluginConfig.chain_logo_url);
