@@ -3,8 +3,10 @@ import {existsSync, readFileSync, unlinkSync, writeFileSync} from "fs";
 import {join} from "path";
 import fastifyStatic from "fastify-static";
 import {ServerResponse} from "http";
+//@ts-ignore
 import {hLog} from "../../../helpers/common_functions";
 import got from "got";
+//@ts-ignore
 import {HyperionPlugin} from "../../hyperion-plugin";
 
 export interface ExplorerConfig {
@@ -21,7 +23,9 @@ export default class Explorer extends HyperionPlugin {
 
     constructor(config: ExplorerConfig) {
         super(config);
+        //@ts-ignore
         if (this.baseConfig) {
+            //@ts-ignore
             this.pluginConfig = this.baseConfig;
             if (process.title.endsWith('api')) {
                 this.apiInit();
@@ -42,8 +46,10 @@ export default class Explorer extends HyperionPlugin {
             if (this.pluginConfig.chain_logo_url) {
                 hLog(`Downloading chain logo from ${this.pluginConfig.chain_logo_url}...`);
                 const chainLogo = await got(this.pluginConfig.chain_logo_url);
+                //@ts-ignore
                 const path = join(__dirname, 'dist', 'assets', this.chainName + '_logo.png');
                 writeFileSync(path, chainLogo.rawBody);
+                //@ts-ignore
                 this.pluginConfig.chain_logo_url = 'https://' + this.pluginConfig.server_name + '/v2/explore/assets/' + this.chainName + '_logo.png';
             }
         } catch (e) {
@@ -51,31 +57,39 @@ export default class Explorer extends HyperionPlugin {
         }
     }
 
-    addRoutes(server) {
+    async addRoutes(server) {
         // @ts-ignore
         const manager = server.manager;
         const apiConfig = manager.config.api;
         const manifestName = `Hyperion Explorer - ${manager.config.api.chain_name}`;
 
-        server.register(require('fastify-compress'), {global: false});
+        hLog(`server value ${JSON.stringify(server)}...`);
 
         try {
+            await server.register(require('fastify-compress'), {global: false});
+
             const webManifestPath = join(__dirname, 'hyperion-explorer', 'src', 'manifest.webmanifest');
             if (existsSync(webManifestPath)) {
+                try {
+
+                } catch (err) {
+                    hLog(`error with sync ${err}...`);
+                }
                 const _data = readFileSync(webManifestPath);
                 const tempPath = join(__dirname, 'dist', 'manifest.webmanifest');
                 if (existsSync(tempPath)) {
                     hLog('Remving compiled manifest');
-                    unlinkSync(tempPath);
+                    await unlinkSync(tempPath);
                 }
                 const baseManifest = JSON.parse(_data.toString());
                 baseManifest.name = manifestName;
                 baseManifest.short_name = manifestName;
-                server.get('/v2/explore/manifest.webmanifest', (request: FastifyRequest, reply: FastifyReply) => {
+                await server.get('/v2/explore/manifest.webmanifest', (request: FastifyRequest, reply: FastifyReply) => {
                     reply.send(baseManifest);
                 });
             } else {
-                hLog('manifest.webmanifest not found in source, using fallback!');
+                try {
+                    hLog('manifest.webmanifest not found in source, using fallback!');
                 const _p = "maskable any";
                 const _t = "image/png";
                 const fallbackData = {
@@ -94,40 +108,47 @@ export default class Explorer extends HyperionPlugin {
                         {src: "assets/icons/icon-512x512.png", sizes: "512x512", type: _t, purpose: _p}
                     ]
                 };
-                server.get('/v2/explore/manifest.webmanifest', (request: FastifyRequest, reply: FastifyReply) => {
+                await server.get('/v2/explore/manifest.webmanifest', (request: FastifyRequest, reply: FastifyReply) => {
                     reply.send(fallbackData);
                 });
+
+                } catch (err) {
+                    hLog(`Error with fallback ${err}`)
+                }
             }
         } catch (e) {
             hLog(`failed to add routes ${e}`);
         }
-
-
-        server.register(fastifyStatic, {
-            root: join(__dirname, 'dist'),
-            redirect: true,
-            wildcard: false,
-            prefix: '/v2/explore',
-            setHeaders: (res: ServerResponse, path) => {
-                if (path.endsWith('/ngsw-worker.js')) {
-                    res.setHeader('Service-Worker-Allowed', '/');
+        try {
+            await server.register(fastifyStatic, {
+                root: join(__dirname, 'dist'),
+                redirect: true,
+                wildcard: false,
+                prefix: '/v2/explore',
+                setHeaders: (res: ServerResponse, path) => {
+                    if (path.endsWith('/ngsw-worker.js')) {
+                        res.setHeader('Service-Worker-Allowed', '/');
+                    }
                 }
-            }
-        });
-
-        server.get('/v2/explore/**/*', (request: FastifyRequest, reply: FastifyReply) => {
-            reply.sendFile('index.html', join(__dirname, 'dist'));
-        });
-
-        server.get('/v2/explorer_metadata', (request: FastifyRequest, reply: FastifyReply) => {
-            reply.send({
-                logo: this.pluginConfig.chain_logo_url,
-                provider: apiConfig.provider_name,
-                provider_url: apiConfig.provider_url,
-                chain_name: apiConfig.chain_name,
-                chain_id: manager.conn.chains[manager.chain].chain_id,
-                custom_core_token: apiConfig.custom_core_token
             });
-        });
+
+            await server.get('/v2/explore/**/*', (request: FastifyRequest, reply: FastifyReply) => {
+                reply.sendFile('index.html', join(__dirname, 'dist'));
+            });
+
+            await server.get('/v2/explorer_metadata', (request: FastifyRequest, reply: FastifyReply) => {
+                reply.send({
+                    logo: this.pluginConfig.chain_logo_url,
+                    provider: apiConfig.provider_name,
+                    provider_url: apiConfig.provider_url,
+                    chain_name: apiConfig.chain_name,
+                    chain_id: manager.conn.chains[manager.chain].chain_id,
+                    custom_core_token: apiConfig.custom_core_token
+                });
+            });
+
+        } catch(err) {
+            hLog(`Failed to register route ${err}`)
+        }
     }
 }
