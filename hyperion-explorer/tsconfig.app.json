@@ -7,9 +7,12 @@
   },
   "files": [
     "src/main.ts",
-    "src/polyfills.ts"
+    "src/polyfills.ts",
+    "hyperion-explorer/src/main.ts",
+    "hyperion-explorer/src/polyfills.ts"
   ],
   "include": [
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "hyperion-explorer/src/**/*.d.ts"
   ]
 }

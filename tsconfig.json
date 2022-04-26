@@ -15,7 +15,6 @@
     ]
   },
   "exclude": [
-    "node_modules",
-    "hyperion-explorer"
+    "node_modules"
   ]
 }
