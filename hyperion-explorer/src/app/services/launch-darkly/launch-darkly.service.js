@@ -10,7 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LaunchDarklyService = exports.LDAnonymousUser = exports.LDUserCustomProperties = void 0;
 const core_1 = require("@angular/core");
 const launchdarkly_js_client_sdk_1 = require("launchdarkly-js-client-sdk");
-const environment_1 = require("src/environments/environment");
+const environment_1 = require("../../../environments/environment");
 const featureFlags_1 = require("./featureFlags");
 exports.LDUserCustomProperties = {
     platform: 'hyperion-web',

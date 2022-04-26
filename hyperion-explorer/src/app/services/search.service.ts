@@ -3,8 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {GetTableByScopeResponse, TableData} from '../interfaces';
 import {Router} from '@angular/router';
-import { LaunchDarklyService } from 'src/app/services/launch-darkly/launch-darkly.service';
-import { FeatureFlagName } from 'src/app/services/launch-darkly/featureFlags';
+import { LaunchDarklyService } from '../services/launch-darkly/launch-darkly.service';
+import { FeatureFlagName } from '../services/launch-darkly/featureFlags';
 
 @Injectable({
   providedIn: 'root'
@@ -55,9 +55,9 @@ export class SearchService {
 
     const sValue = searchText.toLowerCase();
     this.isQueryingByBlockNumberEnabled = false
-      // await this.featureFlagClient.variation(
-      //   FeatureFlagName.IsQueryingByBlockNumberEnabled
-      // );
+      await this.featureFlagClient.variation(
+        FeatureFlagName.IsQueryingByBlockNumberEnabled
+      );
 
     // account direct
     if (filteredAccounts.length > 0) {

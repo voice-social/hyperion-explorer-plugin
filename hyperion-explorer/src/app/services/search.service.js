@@ -46,8 +46,8 @@ let SearchService = class SearchService {
     }
     async submitSearch(searchText, filteredAccounts) {
         const sValue = searchText.toLowerCase();
-        this.isQueryingByBlockNumberEnabled =
-            await this.featureFlagClient.variation(featureFlags_1.FeatureFlagName.IsQueryingByBlockNumberEnabled);
+        this.isQueryingByBlockNumberEnabled = false;
+        await this.featureFlagClient.variation(featureFlags_1.FeatureFlagName.IsQueryingByBlockNumberEnabled);
         // account direct
         if (filteredAccounts.length > 0) {
             await this.router.navigate(['/account', sValue]);

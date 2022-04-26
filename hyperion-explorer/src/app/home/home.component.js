@@ -50,8 +50,8 @@ let HomeComponent = class HomeComponent {
         if (this.chainData.chainInfoData.chain_name) {
             this.title.setTitle(`${this.chainData.chainInfoData.chain_name} Hyperion Explorer`);
         }
-        this.isQueryingByBlockNumberEnabled =
-            await this.featureFlagClient.variation(featureFlags_1.FeatureFlagName.IsQueryingByBlockNumberEnabled);
+        this.isQueryingByBlockNumberEnabled = false;
+        await this.featureFlagClient.variation(featureFlags_1.FeatureFlagName.IsQueryingByBlockNumberEnabled);
         if (this.isQueryingByBlockNumberEnabled) {
             this.placeholders.push('Search by block number...');
         }
