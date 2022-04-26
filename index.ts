@@ -5,7 +5,7 @@ import fastifyStatic from "fastify-static";
 import {ServerResponse} from "http";
 //@ts-ignore
 import {hLog} from "../../../helpers/common_functions";
-import got from "got";
+// import got from "got";
 //@ts-ignore
 import {HyperionPlugin} from "../../hyperion-plugin";
 
@@ -43,6 +43,7 @@ export default class Explorer extends HyperionPlugin {
 
     async fetchChainLogo() {
         try {
+            const { got } = await import('got');
             if (this.pluginConfig.chain_logo_url) {
                 hLog(`Downloading chain logo from ${this.pluginConfig.chain_logo_url}...`);
                 const chainLogo = await got(this.pluginConfig.chain_logo_url);
