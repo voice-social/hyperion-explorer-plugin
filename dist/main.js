@@ -5486,8 +5486,8 @@ __webpack_require__.r(__webpack_exports__);
 const environment = {
     clientSideID: 'YOUR_CLIENT_ID',
     production: false,
-    eosioNodeUrl: 'https://explorer.dev.vops.co',
-    hyperionApiUrl: 'https://explorer.dev.vops.co',
+    eosioNodeUrl: 'http://192.168.10.120:7000',
+    hyperionApiUrl: 'http://192.168.10.120:7000',
     systemContract: 'eosio',
     userResourcesTable: 'userres'
 };
