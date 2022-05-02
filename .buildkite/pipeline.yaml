@@ -13,5 +13,5 @@ steps:
   #     message: "${BUILDKITE_MESSAGE}"
   - command:
       - npm install && npm build
-      - buildkite-agent artifact upload *
+      - ls ../hyperion-explorer-plugin
     agents: *default-agents
