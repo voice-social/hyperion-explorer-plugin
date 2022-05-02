@@ -12,5 +12,7 @@ steps:
   #   build:
   #     message: "${BUILDKITE_MESSAGE}"
   - command:
-    - npm install && npm build
-    - buildkite-agent artifact upload .
+      - npm install && npm build
+      - buildkite-agent artifact upload .
+    agents: &default-agents~
+      queue: voice-app-builder-v2
