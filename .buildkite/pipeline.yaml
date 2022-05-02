@@ -13,7 +13,7 @@ steps:
   #     message: "${BUILDKITE_MESSAGE}"
   - command:
       - cd .. && git clone https://github.com/voice-social/hyperion-history-api.git
-      - ln -s hyperion-explorer-plugin hyperoin-history-api/plugins/repos/explorer
+      - ln -s hyperion-explorer-plugin hyperoin-history-api/plugins/repos
       - cd hyperion-history-api && npm install && ./hpm build all
     artifact_paths:
       - ../hyperion-history-api/repos/explorer/*
