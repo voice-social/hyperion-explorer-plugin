@@ -12,9 +12,11 @@ steps:
   #   build:
   #     message: "${BUILDKITE_MESSAGE}"
   - command:
-      - cd .. && git clone https://github.com/voice-social/hyperion-history-api.git
-      - ln -s hyperion-explorer-plugin hyperoin-history-api/plugins/repos
-      - cd hyperion-history-api && npm install && ./hpm build all
+
+      - "git clone https://github.com/voice-social/hyperion-history-api.git \
+         && cd hyperion-history-api \
+         && npm install && ./hpm install -r https://github.com/voice-social/hyperion-explorer-plugin.git explorer"
+      - tar -zcvf explorer.tar.gz hyperion-history-api/plugins/reops/explorer
     artifact_paths:
-      - ../hyperion-history-api/repos/explorer/*
+      - ../hyperion-history-api/repos/explorer explorer
     agents: *default-agents
