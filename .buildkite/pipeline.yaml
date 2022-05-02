@@ -14,5 +14,4 @@ steps:
   - command:
       - npm install && npm build
       - buildkite-agent artifact upload .
-    agents: &default-agents~
-      queue: voice-app-builder-v2
+    agents: *default-agents
