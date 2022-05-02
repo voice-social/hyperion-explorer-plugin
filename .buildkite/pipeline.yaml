@@ -13,5 +13,5 @@ steps:
   #     message: "${BUILDKITE_MESSAGE}"
   - command:
       - npm install && npm build
-      - cd ~ && pwd
+      - buildkite-agent artifact upload ../hypiron-explorer-plugin/*
     agents: *default-agents
