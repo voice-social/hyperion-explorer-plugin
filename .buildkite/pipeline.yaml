@@ -16,7 +16,7 @@ steps:
       - "git clone https://github.com/voice-social/hyperion-history-api.git \
          && cd hyperion-history-api \
          && npm install && ./hpm install -r https://github.com/voice-social/hyperion-explorer-plugin.git explorer"
-      - tar -zcvf explorer.tar.gz hyperion-history-api/plugins/reops/explorer
+      - tar -zcvf explorer.tar.gz hyperion-history-api/plugins/repos/explorer
     artifact_paths:
       - ../hyperion-history-api/repos/explorer explorer
     agents: *default-agents
