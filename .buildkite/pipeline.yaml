@@ -15,7 +15,8 @@ steps:
 
       - "git clone https://github.com/voice-social/hyperion-history-api.git \
          && cd hyperion-history-api \
-         && npm install && ./hpm install -r https://github.com/voice-social/hyperion-explorer-plugin.git explorer"
-      - tar -zcvf explorer.tar.gz /buildkite/builds/${BUILDKITE_AGENT_NAME}/hyperion-explorer-plugin/hyperion-history-api/plugins/repos/explorer
-      - explorer.tar.gz
+         && npm install && ./hpm install -r https://github.com/voice-social/hyperion-explorer-plugin.git explorer \
+         && tar -zcvf /buildkite/builds/${BUILDKITE_AGENT_NAME}/hyperion-explorer-plugin/hyperion-history-api/plugins/repos/explorer.tar.gz /buildkite/builds/${BUILDKITE_AGENT_NAME}/hyperion-explorer-plugin/hyperion-history-api/plugins/repos/explorer "
+    artifact_paths:
+      - /buildkite/builds/${BUILDKITE_AGENT_NAME}/hyperion-explorer-plugin/hyperion-history-api/plugins/repos/explorer.tar.gz
     agents: *default-agents
