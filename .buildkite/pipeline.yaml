@@ -18,5 +18,5 @@ steps:
          && npm install && ./hpm install -r https://github.com/voice-social/hyperion-explorer-plugin.git explorer \
          && cd plugins/repos  && tar -zcvf explorer.tar.gz ./explorer"
     artifact_paths:
-      -  ./*/explorer.tar.gz
+      -  hyperion-history-api/plugins/repos/explorer.tar.gz
     agents: *default-agents
