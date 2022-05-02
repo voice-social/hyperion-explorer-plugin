@@ -6,8 +6,11 @@ defaults:
         repository: https://github.com/voice-social/voice-buildkite-template.git
 
 steps:
-  - label: ":buildkite: Trigger API build"
-    trigger: hyperion-history-api
-    if: build.tag == null && build.branch == "master" && build.pull_request.id == null
-    build:
-      message: "${BUILDKITE_MESSAGE}"
+  # - label: ":buildkite: Trigger API build"
+  #   trigger: hyperion-history-api
+  #   if: build.tag == null && build.branch == "master" && build.pull_request.id == null
+  #   build:
+  #     message: "${BUILDKITE_MESSAGE}"
+  - command:
+    - npm install && npm build
+    - buildkite-agent artifact upload .
