@@ -1,12 +1,1 @@
-/node_modules
-/.idea
-hyperion-explorer/node_modules
-hyperion-explorer/.idea
-.DS_Store
-node_modules
-docker
-docker-compose
-*/data
-skaffold*
-helm
-.buildkite
+*.tar.gz

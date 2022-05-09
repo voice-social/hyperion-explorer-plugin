@@ -1,2 +1,3 @@
 FROM busybox
-COPY --chown=voice:voice /opt/app/hyperion-history-api/plugins/repos/explorer /opt/app/hyperion-history-api/plugins/repos/explorer
+WORKDIR /plugin
+COPY --chown=voice:voice plugin .

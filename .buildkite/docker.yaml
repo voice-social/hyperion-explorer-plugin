@@ -2,7 +2,7 @@ steps:
   - label: ":radio_button: docker build & push"
     command: |
       mkdir plugin
-      buildkite-agent artifact download ${plugin}  hyperion-history-api/plugins/repos/explorer.tar.gz
+      buildkite-agent artifact download ${plugin} plugin
       tar -xf  plugin/explorer
       ls -la  plugins/repos/
       function cleanup {
