@@ -31,6 +31,7 @@ steps:
     env:
        plugin: hyperion-history-api/plugins/repos/explorer.tar.gz
        IMAGE: gcr.io/voice-dev-infra-services/voice/hyperion-history-api
+       DOCKERFILE: Dockerfile
   - wait
   - command: buildkite-agent artifact delete hyperion-history-api/plugins/repos/explorer.tar.gz
 
