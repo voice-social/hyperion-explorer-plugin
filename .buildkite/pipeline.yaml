@@ -30,10 +30,13 @@ steps:
         permit_on_passed: true
     env:
        plugin: hyperion-history-api/plugins/repos/explorer.tar.gz
-       IMAGE: gcr.io/voice-dev-infra-services/voice/hyperion-history-api
+       IMAGE: gcr.io/voice-dev-infra-services/voice/hyperion-explorer-plugin
        DOCKERFILE: Dockerfile
   - wait
-  - command: buildkite-agent artifact delete hyperion-history-api/plugins/repos/explorer.tar.gz
+  - label: delete artifact
+    command: buildkite-agent artifact delete hyperion-history-api/plugins/repos/explorer.tar.gz
+    agents:
+      queue:  voice-app-builder-v2
 
   - label: ":buildkite: Trigger API build"
     trigger: hyperion-history-api
