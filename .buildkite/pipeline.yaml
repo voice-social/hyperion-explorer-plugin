@@ -15,7 +15,7 @@ steps:
     artifact_paths:
       -  hyperion-history-api/plugins/repos/explorer.tar.gz plugin.tar.gz
     agents: *default-agents
-    if: build.tag == null && build.branch == "master" && build.pull_request.id == null
+  #  if: build.tag == null && build.branch == "master" && build.pull_request.id == null
 
   - wait
 
@@ -23,8 +23,8 @@ steps:
     command: |
       buildkite-agent pipeline upload .buildkite/docker.yaml
     agents:
-      queue: voice-main-dev-deployer
-    if: build.tag == null && build.branch == "master" && build.pull_request.id == null
+      queue:  voice-app-builder-v2
+  #  if: build.tag == null && build.branch == "master" && build.pull_request.id == null
     retry:
       manual:
         permit_on_passed: true
