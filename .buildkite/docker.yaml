@@ -1,0 +1,63 @@
+steps:
+  - label: ":radio_button: docker build & push"
+    command: |
+      buildkite-agent artifact download plugin.tar.gz
+      tar -xf  plugin.tar.gz -C plugins/repos/
+      function cleanup {
+        echo "--- :docker: Clean up"
+        for extra_tag in $(echo ${TAG} | sed "s/,/ /g"); do
+          echo "Clean up ${IMAGE}:\${extra_tag}...."
+          docker rmi ${IMAGE}:\${extra_tag} || true
+        done;
+        echo "Clean up ${IMAGE}:latest...."
+        docker rmi ${IMAGE}:latest || true
+      }
+      trap cleanup EXIT
+      trap cleanup ERR
+      if [ ! -z ${BUILD_ARGS} ]; then
+        for arg in $(echo ${BUILD_ARGS} | sed "s/,/ /g"); do
+          extra_args+="--build-arg \${arg} ";
+        done;
+      fi
+      # multiple image tags
+      if [ ! -z ${TAG} ]; then
+        for extra_tag in $(echo ${TAG} | sed "s/,/ /g"); do
+          extra_tags+="-t ${IMAGE}:\${extra_tag} ";
+        done;
+      fi
+      echo "--- :docker: Docker config"
+      docker-credential-gcr configure-docker
+      echo "--- :docker: Docker build"
+      if [ ! -z ${PULL} ]; then
+        docker build --pull -t ${IMAGE}:latest \${extra_tags} $(dirname ${DOCKERFILE}) -f ${DOCKERFILE} --build-arg NPM_AUTH_TOKEN \${extra_args}
+      else
+        docker build -t ${IMAGE}:latest \${extra_tags} $(dirname ${DOCKERFILE}) -f ${DOCKERFILE} --build-arg NPM_AUTH_TOKEN \${extra_args}
+      fi
+      echo "--- :docker: Docker push"
+      if [ ! -z ${TAG} ]; then
+        for extra_tag in $(echo ${TAG} | sed "s/,/ /g"); do
+          echo "Push ${IMAGE}:\${extra_tag}...."
+          docker push ${IMAGE}:\${extra_tag}
+        done;
+      fi
+      case ${SKIP_LATEST}x in
+        "x")
+          echo "Push ${IMAGE}:latest...."
+          docker push ${IMAGE}:latest
+          ;;
+        falsex)
+          echo "Push ${IMAGE}:latest...."
+          docker push ${IMAGE}:latest
+          ;;
+        truex)
+          echo "Skip latest tag..."
+          ;;
+        *)
+          echo "ERROR: Unknown SKIP_LATEST value: ${SKIP_LATEST}"
+          exit 1
+          ;;
+        esac
+    agents:
+      queue: "${BUILDKITE_AGENT}"
+    env:
+      BUILDKITE_AGENT_CACHE_PATH: /tmp/buildkite-cache
