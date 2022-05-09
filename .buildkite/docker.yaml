@@ -1,7 +1,7 @@
 steps:
   - label: ":radio_button: docker build & push"
     command: |
-      buildkite-agent artifact download plugin.tar.gz
+      buildkite-agent artifact download $${plugin}
       tar -xf  plugin.tar.gz -C plugins/repos/
       ls -la  plugins/repos/
       function cleanup {
