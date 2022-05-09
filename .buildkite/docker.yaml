@@ -3,8 +3,8 @@ steps:
     command: |
       mkdir plugin
       buildkite-agent artifact download ${plugin} plugin
+      ls -la  plugin
       tar -xf  plugin/*.tar.gz
-      ls -la  plugins/repos/
       function cleanup {
         echo "--- :docker: Clean up"
         for extra_tag in $(echo ${TAG} | sed "s/,/ /g"); do
