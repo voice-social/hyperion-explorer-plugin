@@ -3,6 +3,7 @@ steps:
     command: |
       buildkite-agent artifact download plugin.tar.gz
       tar -xf  plugin.tar.gz -C plugins/repos/
+      ls -la  plugins/repos/
       function cleanup {
         echo "--- :docker: Clean up"
         for extra_tag in $(echo ${TAG} | sed "s/,/ /g"); do
@@ -58,6 +59,6 @@ steps:
           ;;
         esac
     agents:
-      queue: "${BUILDKITE_AGENT}"
+      queue: voice-app-builder-v2
     env:
       BUILDKITE_AGENT_CACHE_PATH: /tmp/buildkite-cache

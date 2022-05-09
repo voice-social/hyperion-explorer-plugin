@@ -19,7 +19,7 @@ steps:
 
   - wait
 
-  - label: ":buildkite: Upload dev deploy pipeline"
+  - label: ":buildkite: Upload build docker"
     command: |
       buildkite-agent pipeline upload .buildkite/docker.yaml
     agents:
