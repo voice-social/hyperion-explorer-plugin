@@ -30,8 +30,9 @@ steps:
         permit_on_passed: true
     env:
        plugin: hyperion-history-api/plugins/repos/explorer.tar.gz
-       image: gcr.io/voice-dev-infra-services/voice/hyperion-history-api
+       IMAGE: gcr.io/voice-dev-infra-services/voice/hyperion-history-api
   - wait
+  - command: buildkite-agent artifact delete hyperion-history-api/plugins/repos/explorer.tar.gz
 
   - label: ":buildkite: Trigger API build"
     trigger: hyperion-history-api
