@@ -15,7 +15,8 @@ steps:
     artifact_paths:
       -  hyperion-history-api/plugins/repos/explorer.tar.gz
     agents: *default-agents
-  #  if: build.tag == null && build.branch == "master" && build.pull_request.id == null
+    if: build.tag == null && build.branch == "master" && build.pull_request.id == null
+
 
   - wait
 
@@ -24,7 +25,6 @@ steps:
       buildkite-agent pipeline upload .buildkite/docker.yaml
     agents:
       queue:  voice-app-builder-v2
-  #  if: build.tag == null && build.branch == "master" && build.pull_request.id == null
     retry:
       manual:
         permit_on_passed: true
@@ -32,6 +32,8 @@ steps:
        plugin: hyperion-history-api/plugins/repos/explorer.tar.gz
        IMAGE: gcr.io/voice-dev-infra-services/voice/hyperion-explorer-plugin
        DOCKERFILE: Dockerfile
+    if: build.tag == null && build.branch == "master" && build.pull_request.id == null
+
   - wait
 
   - label: ":buildkite: Trigger API build"
