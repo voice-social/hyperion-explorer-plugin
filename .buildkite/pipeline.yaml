@@ -8,7 +8,7 @@ defaults:
 steps:
   - command:
       - "git clone https://github.com/voice-social/hyperion-history-api.git \
-         && cd hyperion-history-api \
+         && cd hyperion-history-api && \
          source ~/.nvm/nvm.sh && nvm use v16 && \
          npm install && ./hpm install -r https://github.com/voice-social/hyperion-explorer-plugin.git explorer && \
          cd plugins/repos  && tar -zcvf explorer.tar.gz ./explorer"
