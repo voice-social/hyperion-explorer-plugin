@@ -3,7 +3,7 @@ steps:
     command: |
       mkdir plugin
       buildkite-agent artifact download ${plugin} plugin
-      tar -xf  plugin/explorer
+      tar -xf  plugin/*.tar.gz
       ls -la  plugins/repos/
       function cleanup {
         echo "--- :docker: Clean up"
