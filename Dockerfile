@@ -1,3 +1,3 @@
 FROM busybox
-WORKDIR /explorer
-COPY  plugin/explorer /explorer
+WORKDIR /opt/app
+COPY  artifacts/explorer /opt/app
