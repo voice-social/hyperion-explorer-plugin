@@ -24,12 +24,7 @@ class Explorer extends hyperion_plugin_1.HyperionPlugin {
         }
     }
     apiInit() {
-        try {
-            this.fetchChainLogo().catch(console.log);
-        }
-        catch (err) {
-            (0, common_functions_1.hLog)(`error on api init ${err}`);
-        }
+        this.fetchChainLogo().catch(console.log);
     }
     async fetchChainLogo() {
         try {
@@ -57,7 +52,7 @@ class Explorer extends hyperion_plugin_1.HyperionPlugin {
                 const _data = (0, fs_1.readFileSync)(webManifestPath);
                 const tempPath = (0, path_1.join)(__dirname, 'dist', 'manifest.webmanifest');
                 if ((0, fs_1.existsSync)(tempPath)) {
-                    (0, common_functions_1.hLog)('Remving compiled manifest');
+                    console.log('Remving compiled manifest');
                     (0, fs_1.unlinkSync)(tempPath);
                 }
                 const baseManifest = JSON.parse(_data.toString());
@@ -93,7 +88,7 @@ class Explorer extends hyperion_plugin_1.HyperionPlugin {
             }
         }
         catch (e) {
-            (0, common_functions_1.hLog)(`failed to add routes ${e}`);
+            console.log(e);
         }
         server.register(fastify_static_1.default, {
             root: (0, path_1.join)(__dirname, 'dist'),
