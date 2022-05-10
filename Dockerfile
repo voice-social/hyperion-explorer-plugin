@@ -1,2 +1,2 @@
 FROM busybox
-COPY  plugin/explorer .
+COPY  plugin/explorer explorer
