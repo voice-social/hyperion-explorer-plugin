@@ -1,2 +1,3 @@
 FROM busybox
-COPY  plugin/explorer explorer
+WORKDIR /explorer
+COPY  plugin/explorer /explorer
