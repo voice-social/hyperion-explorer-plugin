@@ -125,14 +125,16 @@ export class AccountService {
 
   async checkLib(): Promise<number> {
     try {
+      console.log('getting lib number info')
       const info = await this.httpClient.get(this.server + '/v1/chain/get_info').toPromise() as any;
+      console.log(info, 'info')
       if (info) {
         return info.last_irreversible_block_num;
       } else {
         return null;
       }
     } catch (e) {
-      console.log(e);
+      console.log(e, 'error getting lib num');
       return null;
     }
   }
