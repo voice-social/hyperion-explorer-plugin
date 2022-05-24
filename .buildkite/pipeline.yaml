@@ -17,7 +17,7 @@ steps:
     artifact_paths:
       -  hyperion-history-api/plugins/repos/explorer.tar.gz
     agents: *default-agents
-    #if: build.tag == null && build.branch == "master" && build.pull_request.id == null
+    if: build.tag == null && build.branch == "master" && build.pull_request.id == null
 
 
   - wait
