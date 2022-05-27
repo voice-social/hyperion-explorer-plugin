@@ -23,6 +23,8 @@
     "url": "https://eosrio.io"
   },
   "dependencies": {
+    "@angular/core": "^13.3.10",
+    "@angular/platform-browser-dynamic": "^13.3.10",
     "@voice-social/voice-skaffold-tools": "^1.13.0",
     "fastify-compress": "^3.6.0",
     "fastify-static": "^4.2.3"

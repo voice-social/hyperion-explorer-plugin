@@ -1,3 +1,4 @@
+//@ts-nocheck
 import {FastifyInstance} from "fastify";
 import {HyperionAction} from "../interfaces/hyperion-action";
 import {HyperionDelta} from "../interfaces/hyperion-delta";
