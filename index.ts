@@ -48,6 +48,7 @@ export default class Explorer extends HyperionPlugin {
                 this.pluginConfig.chain_logo_url = 'https://' + this.pluginConfig.server_name + '/v2/explore/assets/' + this.chainName + '_logo.png';
             }
         } catch (e) {
+            console.log(e)
             hLog(e);
         }
     }
@@ -68,7 +69,7 @@ export default class Explorer extends HyperionPlugin {
                 const _data = readFileSync(webManifestPath);
                 const tempPath = join(__dirname, 'dist', 'manifest.webmanifest');
                 if (existsSync(tempPath)) {
-                    hLog('Remving compiled manifest');
+                    hLog('Removing compiled manifest');
                     unlinkSync(tempPath);
                 }
                 const baseManifest = JSON.parse(_data.toString());
