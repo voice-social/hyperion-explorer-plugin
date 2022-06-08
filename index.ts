@@ -48,7 +48,6 @@ export default class Explorer extends HyperionPlugin {
                 this.pluginConfig.chain_logo_url = 'https://' + this.pluginConfig.server_name + '/v2/explore/assets/' + this.chainName + '_logo.png';
             }
         } catch (e) {
-            console.log(e)
             hLog(e);
         }
     }
