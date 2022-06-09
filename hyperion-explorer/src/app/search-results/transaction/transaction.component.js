@@ -134,6 +134,21 @@ var TransactionComponent = /** @class */ (function () {
         return new Date(date).toLocaleString();
     };
     TransactionComponent.prototype.stringifyObject = function (subitem) {
+        if (subitem.constructor === Array && Object.keys(subitem).length === 2) {
+            var value = subitem[1];
+            return JSON.stringify(value, null, 2);
+        }
+        if (subitem.constructor === Array && Object.keys(subitem).length > 2) {
+            var test_1 = [];
+            Object.values(subitem).map(function (key) {
+                Object.values(key).map(function (value) {
+                    console.log(value, 'object value');
+                    test_1.push(value[1]);
+                });
+            });
+            console.log(test_1, 'test array');
+            return JSON.stringify(test_1, null, 2);
+        }
         return JSON.stringify(subitem, null, 2);
     };
     TransactionComponent.prototype.reloadCountdownTimer = function () {
@@ -159,4 +174,3 @@ var TransactionComponent = /** @class */ (function () {
     return TransactionComponent;
 }());
 exports.TransactionComponent = TransactionComponent;
-//# sourceMappingURL=transaction.component.js.map

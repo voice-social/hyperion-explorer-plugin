@@ -352,6 +352,10 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   stringifyObject(subitem: object): string {
+    if(subitem.constructor === Array) {
+      const value = subitem[1]
+      return JSON.stringify(value, null, 2)
+    }
       return JSON.stringify(subitem, null, 2);
   }
 

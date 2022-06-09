@@ -335,6 +335,10 @@ var AccountComponent = /** @class */ (function () {
         return typeof subitem;
     };
     AccountComponent.prototype.stringifyObject = function (subitem) {
+        if (subitem.constructor === Array) {
+            var value = subitem[1];
+            return JSON.stringify(value, null, 2);
+        }
         return JSON.stringify(subitem, null, 2);
     };
     AccountComponent.prototype.convertBytes = function (bytes) {
@@ -406,4 +410,3 @@ var AccountComponent = /** @class */ (function () {
     return AccountComponent;
 }());
 exports.AccountComponent = AccountComponent;
-//# sourceMappingURL=account.component.js.map

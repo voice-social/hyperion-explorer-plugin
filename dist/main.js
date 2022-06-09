@@ -1997,6 +1997,10 @@ class AccountComponent {
         return typeof subitem;
     }
     stringifyObject(subitem) {
+        if (subitem.constructor === Array) {
+            const value = subitem[1];
+            return JSON.stringify(value, null, 2);
+        }
         return JSON.stringify(subitem, null, 2);
     }
     convertBytes(bytes) {
@@ -4925,6 +4929,21 @@ class TransactionComponent {
         return new Date(date).toLocaleString();
     }
     stringifyObject(subitem) {
+        if (subitem.constructor === Array && Object.keys(subitem).length === 2) {
+            const value = subitem[1];
+            return JSON.stringify(value, null, 2);
+        }
+        if (subitem.constructor === Array && Object.keys(subitem).length > 2) {
+            let test = [];
+            Object.values(subitem).map((key) => {
+                Object.values(key).map((value) => {
+                    console.log(value, 'object value');
+                    test.push(value[1]);
+                });
+            });
+            console.log(test, 'test array');
+            return JSON.stringify(test, null, 2);
+        }
         return JSON.stringify(subitem, null, 2);
     }
     reloadCountdownTimer() {

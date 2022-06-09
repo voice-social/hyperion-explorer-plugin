@@ -84,8 +84,25 @@ export class TransactionComponent implements OnInit, OnDestroy {
   }
 
   stringifyObject(subitem: object): string {
-    return JSON.stringify(subitem, null, 2);
-}
+    if(subitem.constructor === Array && Object.keys(subitem).length === 2) {
+      const value = subitem[1]
+      return JSON.stringify(value, null, 2)
+    }
+
+    if(subitem.constructor === Array && Object.keys(subitem).length > 2) {
+      let test = []
+      Object.values(subitem).map((key) => {
+        Object.values(key).map((value) => {
+          console.log(value, 'object value')
+          test.push(value[1])
+        })
+      })
+
+      console.log(test, 'test array')
+      return JSON.stringify(test, null, 2)
+    }
+      return JSON.stringify(subitem, null, 2);
+  }
 
   async reloadCountdownTimer(): Promise<void> {
     await this.accountService.updateLib();
