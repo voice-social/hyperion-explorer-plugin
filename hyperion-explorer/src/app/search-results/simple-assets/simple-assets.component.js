@@ -57,7 +57,7 @@ var SimpleAssetsComponent = /** @class */ (function () {
         this.simpleAssetsService = simpleAssetsService;
         this.chainData = chainData;
         this.title = title;
-        this.columnsToDisplay = ['contract', 'action', 'data', 'auth', 'block_num'];
+        this.columnsToDisplay = ['contract', 'action', 'data', 'block_num'];
         this.tx = {
             res: [],
             total: []
@@ -117,4 +117,3 @@ var SimpleAssetsComponent = /** @class */ (function () {
     return SimpleAssetsComponent;
 }());
 exports.SimpleAssetsComponent = SimpleAssetsComponent;
-//# sourceMappingURL=simple-assets.component.js.map
