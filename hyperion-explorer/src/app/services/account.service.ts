@@ -5,6 +5,8 @@ import {AccountCreationData, GetAccountResponse} from '../interfaces';
 import {default as HyperionStreamClient, IncomingData} from '@eosrio/hyperion-stream-client';
 import {MatTableDataSource} from '@angular/material/table';
 import {PaginationService} from './pagination.service';
+import {SA2JSON} from '../utils/sa2json';
+const sa2json = new SA2JSON();
 
 interface HealthResponse {
   features: {
@@ -195,6 +197,22 @@ export class AccountService {
     };
   }
 
+  async convertData(actions): Promise<any> {
+	 	for (var acti in actions) {
+			let action = actions[acti];
+			if (["simpleassets", "simplemarket"].includes(action.act.account)  ) {
+				//console.log(this.actions[acti]);
+				if (action.act.data.idata) actions[acti].act.data.idata = sa2json.buildJSON(actions[acti].act.data.idata);
+				if (action.act.data.mdata) actions[acti].act.data.mdata = sa2json.buildJSON(actions[acti].act.data.mdata);
+				if (action.act.data.ixdata) actions[acti].act.data.ixdata = sa2json.buildJSON(actions[acti].act.data.ixdata);
+				if (action.act.data.mxdata) actions[acti].act.data.mxdata = sa2json.buildJSON(actions[acti].act.data.mxdata);				
+				
+				if (action.act.data.exdata) actions[acti].act.data.exdata = sa2json.buildJSON(actions[acti].act.data.exdata);
+			}
+		}
+		return actions;
+  }
+
   async loadAccountData(accountName: string): Promise<boolean> {
     this.loaded = false;
     try {
@@ -208,8 +226,12 @@ export class AccountService {
       }
 
       if (this.jsonData.actions) {
-        this.actions = this.jsonData.actions;
-        this.checkIrreversibility().catch(console.log);
+        this.actions = await this.convertData(this.jsonData.actions);
+        
+		
+
+		
+		this.checkIrreversibility().catch(console.log);
         this.tableDataSource.data = this.actions;
       }
 
@@ -234,7 +256,8 @@ export class AccountService {
       const q = this.getActionsUrl + accountName + '&global_sequence=0-' + maxGs + '&limit=50';
       const results = await this.httpClient.get(q).toPromise() as any;
       if (results.actions && results.actions.length > 0) {
-        this.actions.push(...results.actions);
+		 let cobertedActions = await this.convertData(results.actions);
+        this.actions.push(...cobertedActions);
         this.tableDataSource.data = this.actions;
       }
     } catch (e) {

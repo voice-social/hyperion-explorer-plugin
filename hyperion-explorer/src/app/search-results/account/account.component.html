@@ -356,22 +356,60 @@
                   <div style="margin-top: 5px" *ngFor="let subitem of item.value">
 
                     <ng-container *ngIf="getType(subitem) === 'string'">
-                      <div style="margin-left: 15px"><span class="break-word">• {{subitem}}</span></div>
+                      
+                      <div style="margin-left: 15px">
+                      	<span class="break-word" *ngIf="item.key!='assetids'; else isLink" >• {{subitem}}</span>
+                      	
+                      	<ng-template #isLink>
+							 <a [routerLink]="['/assetid', subitem]" class="link-blue">
+								{{subitem}}
+							</a>
+						</ng-template>
+                      </div>
+                    
                     </ng-container>
 
                     <ng-container *ngIf="getType(subitem) === 'object'">
                       <div *ngFor="let elem of subitem | keyvalue"
                            [ngClass]="{'data-item': objectKeyCount(subitem) > 1}">
                     <span class="w-500" style="margin-left: 15px">
-                      {{elem.key}}</span>: <span class="break-word">
-                        {{stringifyObject(elem.value)}}
-                      </span>
+                      {{elem.key}}</span>: 
+                      		<span *ngIf="elem.key != 'account'" class="break-word">
+                        		{{stringifyObject(elem.value)}}
+                      		</span>
+                      		
+                      		<span *ngIf="elem.key == 'account'" class="break-word">
+                        		
+                        		<a [routerLink]="['/account', elem.value]" class="link-blue">
+									{{elem.value}}
+								</a>
+                      		</span>
                       </div>
                     </ng-container>
 
                   </div>
 
                 </ng-container>
+				
+				<ng-container *ngIf="getType(item.value) === 'object' && !isArray(item.value)">
+                  <span class="w-500">{{item.key}} [{{objectKeyCount(item.value)}}]</span>:
+				  
+				  <div *ngFor="let elem of item.value | keyvalue"
+                           [ngClass]="{'data-item': objectKeyCount(item.value) > 1}">
+                    <span class="w-500" style="margin-left: 15px">
+                      {{elem.key}}</span>: 
+                      		<span *ngIf="getType(elem.value) != 'object'; else isObject"  class="break-word">
+                        		{{stringifyObject(elem.value)}}
+                      		</span>
+							<ng-template #isObject >
+								<!--<pre [ngStyle.gt-xs]="{'padding': '0px 20px', 'margin': '0px'}" >{{stringifyObject(elem.value)}}</pre>-->
+								<div class="break-word" [ngStyle.gt-xs]="{'padding': '0px 40px'}">{{stringifyObject(elem.value)}}</div>
+							
+							</ng-template>
+					</div>		
+							
+				  
+				</ng-container>
 
                 <ng-container *ngIf="!isArray(item.value)">
                   <ng-container

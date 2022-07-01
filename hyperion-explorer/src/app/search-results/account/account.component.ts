@@ -24,6 +24,7 @@ import {Title} from '@angular/platform-browser';
 import { LaunchDarklyService } from 'src/app/services/launch-darkly/launch-darkly.service';
 import { FeatureFlagName } from 'src/app/services/launch-darkly/featureFlags';
 
+
 interface Permission {
   perm_name: string;
   parent: string;
@@ -411,4 +412,6 @@ export class AccountComponent implements OnInit, OnDestroy {
       console.log(e);
     }
   }
+
 }
+
