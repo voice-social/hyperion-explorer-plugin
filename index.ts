@@ -7,6 +7,9 @@ import {ServerResponse} from "http";
 import {hLog} from "../../../helpers/common_functions";
 import got from "got";
 import {HyperionPlugin} from "../../hyperion-plugin";
+import 'newrelic'
+import {bootstrap} from 'global-agent';
+bootstrap();
 
 export interface ExplorerConfig {
     chain_logo_url: string;
