@@ -346,7 +346,7 @@
 
             <!-- DETAILED ACTION DATA VIEW-->
             <ng-container *ngIf="detailedView">
-
+			
               <div *ngFor="let item of action['act']['data'] | keyvalue"
                    [ngClass]="{'data-item': objectKeyCount(action['act']['data']) > 1}">
 
@@ -391,6 +391,30 @@
 
                 </ng-container>
 				
+				<ng-container *ngIf="getType(item.value) === 'string' && 
+									item.key != 'owner' && 
+									item.key != 'buyer' &&
+									item.key != 'category' &&
+									item.key != 'from' &&
+									item.key != 'to' 
+									
+							" >								
+					<span class="w-500">{{item.key}}</span>: <span> {{item.value}}</span> 				
+				</ng-container>		
+				
+				<ng-container *ngIf="getType(item.value) === 'string' && 
+								item.key === 'owner' || 
+								item.key === 'buyer' ||
+								item.key === 'from' ||
+								item.key === 'to' 
+								" >								
+					<span class="w-500">{{item.key}}</span>: 
+								<a [routerLink]="['/account', item.value]" class="link-blue">
+									{{item.value}}
+								</a>
+				</ng-container>		
+				
+				
 				<ng-container *ngIf="getType(item.value) === 'object' && !isArray(item.value)">
                   <span class="w-500">{{item.key}} [{{objectKeyCount(item.value)}}]</span>:
 				  
@@ -399,8 +423,17 @@
                     <span class="w-500" style="margin-left: 15px">
                       {{elem.key}}</span>: 
                       		<span *ngIf="getType(elem.value) != 'object'; else isObject"  class="break-word">
-                        		{{stringifyObject(elem.value)}}
-                      		</span>
+                        		
+								<ng-container *ngIf="elem.key != 'seriesObjectAssetId'; else isSeriesobj">
+									{{stringifyObject(elem.value)}}
+								</ng-container>
+								<ng-template #isSeriesobj >
+									<a [routerLink]="['/assetid', elem.value]" class="link-blue">
+										{{elem.value}}
+									</a>
+								</ng-template>
+                      		</span>					
+							
 							<ng-template #isObject >
 								<!--<pre [ngStyle.gt-xs]="{'padding': '0px 20px', 'margin': '0px'}" >{{stringifyObject(elem.value)}}</pre>-->
 								<div class="break-word" [ngStyle.gt-xs]="{'padding': '0px 40px'}">{{stringifyObject(elem.value)}}</div>
