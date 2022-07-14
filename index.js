@@ -58,7 +58,7 @@ class Explorer extends hyperion_plugin_1.HyperionPlugin {
                 const _data = (0, fs_1.readFileSync)(webManifestPath);
                 const tempPath = (0, path_1.join)(__dirname, 'dist', 'manifest.webmanifest');
                 if ((0, fs_1.existsSync)(tempPath)) {
-                    (0, common_functions_1.hLog)('Remving compiled manifest');
+                    (0, common_functions_1.hLog)('Removing compiled manifest');
                     (0, fs_1.unlinkSync)(tempPath);
                 }
                 const baseManifest = JSON.parse(_data.toString());

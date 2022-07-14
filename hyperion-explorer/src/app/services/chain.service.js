@@ -84,4 +84,3 @@ var ChainService = /** @class */ (function () {
     return ChainService;
 }());
 exports.ChainService = ChainService;
-//# sourceMappingURL=chain.service.js.map

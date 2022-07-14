@@ -57,7 +57,7 @@ var SimpleAssetsComponent = /** @class */ (function () {
         this.simpleAssetsService = simpleAssetsService;
         this.chainData = chainData;
         this.title = title;
-        this.columnsToDisplay = ['contract', 'action', 'data', 'block_num'];
+        this.columnsToDisplay = ['tx', 'contract', 'action', 'data', 'block_num'];
         this.tx = {
             res: [],
             total: []
@@ -107,6 +107,20 @@ var SimpleAssetsComponent = /** @class */ (function () {
     SimpleAssetsComponent.prototype.stringifyObject = function (subitem) {
         return JSON.stringify(subitem, null, 2);
     };
+    SimpleAssetsComponent.prototype.isJSON = function (item) {
+        if (typeof item == "object")
+            return true;
+        try {
+            item = JSON.parse(item);
+        }
+        catch (e) {
+            return false;
+        }
+        if (typeof item === "object" && item !== null) {
+            return true;
+        }
+        return false;
+    };
     SimpleAssetsComponent = __decorate([
         (0, core_1.Component)({
             selector: 'app-simple-assets',
@@ -117,4 +131,3 @@ var SimpleAssetsComponent = /** @class */ (function () {
     return SimpleAssetsComponent;
 }());
 exports.SimpleAssetsComponent = SimpleAssetsComponent;
-//# sourceMappingURL=simple-assets.component.js.map

@@ -47,6 +47,8 @@ var core_1 = require("@angular/core");
 var environment_1 = require("../../environments/environment");
 var hyperion_stream_client_1 = require("@eosrio/hyperion-stream-client");
 var table_1 = require("@angular/material/table");
+var sa2json_1 = require("../utils/sa2json");
+var sa2json = new sa2json_1.SA2JSON();
 var AccountService = /** @class */ (function () {
     function AccountService(httpClient, pagService) {
         this.httpClient = httpClient;
@@ -273,50 +275,78 @@ var AccountService = /** @class */ (function () {
             _this.streamClientStatus = _this.streamClient.online;
         };
     };
+    AccountService.prototype.convertData = function (actions) {
+        return __awaiter(this, void 0, void 0, function () {
+            var acti, action;
+            return __generator(this, function (_a) {
+                for (acti in actions) {
+                    action = actions[acti];
+                    if (["simpleassets", "simplemarket"].includes(action.act.account)) {
+                        //console.log(this.actions[acti]);
+                        if (action.act.data.idata)
+                            actions[acti].act.data.idata = sa2json.buildJSON(actions[acti].act.data.idata);
+                        if (action.act.data.mdata)
+                            actions[acti].act.data.mdata = sa2json.buildJSON(actions[acti].act.data.mdata);
+                        if (action.act.data.ixdata)
+                            actions[acti].act.data.ixdata = sa2json.buildJSON(actions[acti].act.data.ixdata);
+                        if (action.act.data.mxdata)
+                            actions[acti].act.data.mxdata = sa2json.buildJSON(actions[acti].act.data.mxdata);
+                        if (action.act.data.exdata)
+                            actions[acti].act.data.exdata = sa2json.buildJSON(actions[acti].act.data.exdata);
+                    }
+                }
+                return [2 /*return*/, actions];
+            });
+        });
+    };
     AccountService.prototype.loadAccountData = function (accountName) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, error_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var _a, _b, error_1;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         this.loaded = false;
-                        _b.label = 1;
+                        _c.label = 1;
                     case 1:
-                        _b.trys.push([1, 3, , 4]);
+                        _c.trys.push([1, 5, , 6]);
                         _a = this;
                         return [4 /*yield*/, this.httpClient.get(this.getAccountUrl + accountName).toPromise()];
                     case 2:
-                        _a.jsonData = (_b.sent());
+                        _a.jsonData = (_c.sent());
                         if (this.jsonData.account) {
                             this.account = this.jsonData.account;
                         }
                         if (this.jsonData.tokens) {
                             this.tokens = this.jsonData.tokens;
                         }
-                        if (this.jsonData.actions) {
-                            this.actions = this.jsonData.actions;
-                            this.checkIrreversibility()["catch"](console.log);
-                            this.tableDataSource.data = this.actions;
-                        }
+                        if (!this.jsonData.actions) return [3 /*break*/, 4];
+                        _b = this;
+                        return [4 /*yield*/, this.convertData(this.jsonData.actions)];
+                    case 3:
+                        _b.actions = _c.sent();
+                        this.checkIrreversibility()["catch"](console.log);
+                        this.tableDataSource.data = this.actions;
+                        _c.label = 4;
+                    case 4:
                         if (this.jsonData.total_actions) {
                             this.pagService.totalItems = this.jsonData.total_actions;
                         }
                         this.loaded = true;
                         return [2 /*return*/, true];
-                    case 3:
-                        error_1 = _b.sent();
+                    case 5:
+                        error_1 = _c.sent();
                         console.log(error_1);
                         this.jsonData = null;
                         this.loaded = true;
                         return [2 /*return*/, false];
-                    case 4: return [2 /*return*/];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
     };
     AccountService.prototype.loadMoreActions = function (accountName) {
         return __awaiter(this, void 0, void 0, function () {
-            var firstAction, maxGs, q, results, e_3;
+            var firstAction, maxGs, q, results, cobertedActions, e_3;
             var _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
@@ -325,21 +355,24 @@ var AccountService = /** @class */ (function () {
                         maxGs = (firstAction.global_sequence - 1);
                         _b.label = 1;
                     case 1:
-                        _b.trys.push([1, 3, , 4]);
+                        _b.trys.push([1, 5, , 6]);
                         q = this.getActionsUrl + accountName + '&global_sequence=0-' + maxGs + '&limit=50';
                         return [4 /*yield*/, this.httpClient.get(q).toPromise()];
                     case 2:
                         results = _b.sent();
-                        if (results.actions && results.actions.length > 0) {
-                            (_a = this.actions).push.apply(_a, results.actions);
-                            this.tableDataSource.data = this.actions;
-                        }
-                        return [3 /*break*/, 4];
+                        if (!(results.actions && results.actions.length > 0)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.convertData(results.actions)];
                     case 3:
+                        cobertedActions = _b.sent();
+                        (_a = this.actions).push.apply(_a, cobertedActions);
+                        this.tableDataSource.data = this.actions;
+                        _b.label = 4;
+                    case 4: return [3 /*break*/, 6];
+                    case 5:
                         e_3 = _b.sent();
                         console.log(e_3);
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        return [3 /*break*/, 6];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
@@ -477,4 +510,3 @@ var AccountService = /** @class */ (function () {
     return AccountService;
 }());
 exports.AccountService = AccountService;
-//# sourceMappingURL=account.service.js.map

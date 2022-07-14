@@ -17,7 +17,6 @@ class SA2JSON {
     
     jsonSA_TYPE_PAIR ( obj, isKey ) {
 		let res = {}
-		
 		let key = this.processSAtypes(obj.first, true)
 		let val = this.processSAtypes(obj.second, isKey)
 		
@@ -26,12 +25,10 @@ class SA2JSON {
 		} else {
 			res[key] = val;	
 		}
-		
 		return res;	
     }
 
     jsonSA_TYPE_MAP_VEC ( obj, isKey ) {
-    
 		let res = {}
 		for (var mv in obj) {
 			let key = this.processSAtypes(obj[mv].key, true);		
@@ -42,27 +39,21 @@ class SA2JSON {
 			
 			res[key] = val;
 		}
-
 		return res;	
     }
 
     jsonSA_TYPE_VEC  ( obj )  {
-	
 		let res = []
 		for (var ve in obj) {
 			if (obj[ve])
 			res.push( this.processSAtypes(obj[ve], false ) );
 		}		
-
 		return res;	
     }
 
     processSAtypes(obj, isKey) {
-	
 		let otype = obj[0];	
 		let o = obj[1];
-		
-		
 		if ( otype == "TYPE_PAIR" ) {
 			o = this.jsonSA_TYPE_PAIR (o, isKey);
 		} else if ( otype == "TYPE_MAP_VEC" ) {
@@ -84,19 +75,14 @@ class SA2JSON {
 		} else {
 			if (isKey) o = this.makeKey(o);
 		}
-		
 		return o;
     }
 
     makeKey(s)  {
-    
 		let res = s.toString().replace(/ /g, '_');
 		res = res.replace(/\./g, '_');
-
-		
 		return res;
     }
-    
     
 	arr_val2Str( o ) {
 		let r = [];
@@ -114,8 +100,6 @@ class SA2JSON {
 		return r;
 			
 	}
-	
-	
 	
 	obj_val2Str( o ) {
 		let r = {};
@@ -135,8 +119,6 @@ class SA2JSON {
 		});
 		return r;
     }
-
 }
-//export SA2JSON;
-//exports.default = SA2JSON;
+
 module.exports = {SA2JSON};

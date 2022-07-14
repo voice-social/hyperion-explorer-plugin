@@ -395,12 +395,10 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   changePage(event: PageEvent): void {
-
     // disable streaming if enabled
     if (this.accountService.streamClientStatus) {
       this.accountService.toggleStreaming();
     }
-
     const maxPages = Math.floor(event.length / event.pageSize);
     console.log(event);
     console.log(`${event.pageIndex} / ${maxPages}`);
@@ -412,6 +410,4 @@ export class AccountComponent implements OnInit, OnDestroy {
       console.log(e);
     }
   }
-
 }
-

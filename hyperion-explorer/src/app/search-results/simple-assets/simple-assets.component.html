@@ -52,8 +52,6 @@
 				</a>
 
 			</span>
-			
-			
           </td>
         </ng-container>
 		
@@ -100,43 +98,32 @@
 						  item.key!='category' &&
 						  item.key!='mxdata_key' &&
 						  item.key!='mxdata_value'
-						  
 						  ">
 				<span  class="w-500">{{item.key}}</span>: <span class="break-word">
 					<span *ngIf="isJSON(item.value); else notJSON">
 						<!--pre [ngStyle.gt-xs]="{'padding': '0px 20px', 'margin': '0px'}" >{{stringifyObject(item.value)}}</pre-->
-						
 						 <div style="margin-top: 5px" *ngFor="let subitem of item.value | keyvalue" [ngClass]="{'data-item': objectKeyCount(subitem) > 1}">
-						
 							<span class="w-500" style="margin-left: 15px"> {{subitem.key}}</span>: 
 							<span *ngIf="subitem.key != 'account'" class="break-word">
 								{{stringifyObject(subitem.value)}}
 							</span>
-							
 							<span *ngIf="subitem.key == 'account'" class="break-word">
-								
 								<a [routerLink]="['/account', subitem.value]" class="link-blue">
 									{{subitem.value}}
 								</a>
 							</span>
-
 						  </div>
-						
 					</span>
 					<ng-template #notJSON>
 						{{stringifyObject(item.value)}}
 					</ng-template>
 				</span>
-				
 			  </div >
-			  
 			  <div *ngIf="item.key=='owner' || 
 			              item.key=='seller' ||
 						  item.key=='buyer' ||
 						  item.key=='from' ||
 						  item.key=='to' 
-						  
-						  
 			  ">
 				<span class="w-500">{{item.key}}</span>: <span>  
 					 <a [routerLink]="['/account', item.value]" class="link-blue">
@@ -144,32 +131,25 @@
 					</a>
 				</span>
 			  </div >
-			  
 			  <div *ngIf="item.key=='assetid'">
 				<span class="w-500">{{item.key}}</span>: <span>  
-					 <a [routerLink]="['/assetid', item.value]" class="link-blue">
+					<a [routerLink]="['/assetid', item.value]" class="link-blue">
 						{{item.value}}
 					</a>
 				</span>
 			  </div >
-
 			  <div *ngIf="item.key=='assetids'">
 				<span class="w-500">{{item.key}}</span>: <span>  
-					
 					<span *ngFor="let aid of item.value"
 						[ngClass]="{'data-item': objectKeyCount(item.value) > 1}">				 
 						 <a [routerLink]="['/assetid', aid]" class="link-blue">
 							{{aid}}
 						</a> &nbsp;
 					</span>
-					
 				</span>
 			  </div >
-			  
-			  
 			  <div *ngIf="item.key=='creators'">
 				<span class="w-500">{{item.key}}</span>: <span>  
-					
 					<div *ngFor="let creator of item.value" [ngStyle.gt-xs]="{'padding': '0px 20px'}"
 						[ngClass]="{'data-item': objectKeyCount(item.value) > 1}">				 
 						account:  
@@ -178,13 +158,9 @@
 						</a>, 
 						status:  {{creator.status}}, 
 						ownership_percentage: {{creator.ownership_percentage}}
-						
 					</div>
-					
 				</span>
 			  </div >
-
-			  
             </div>
           </td>
         </ng-container>

@@ -198,19 +198,18 @@ export class AccountService {
   }
 
   async convertData(actions): Promise<any> {
-	 	for (var acti in actions) {
-			let action = actions[acti];
-			if (["simpleassets", "simplemarket"].includes(action.act.account)  ) {
-				//console.log(this.actions[acti]);
-				if (action.act.data.idata) actions[acti].act.data.idata = sa2json.buildJSON(actions[acti].act.data.idata);
-				if (action.act.data.mdata) actions[acti].act.data.mdata = sa2json.buildJSON(actions[acti].act.data.mdata);
-				if (action.act.data.ixdata) actions[acti].act.data.ixdata = sa2json.buildJSON(actions[acti].act.data.ixdata);
-				if (action.act.data.mxdata) actions[acti].act.data.mxdata = sa2json.buildJSON(actions[acti].act.data.mxdata);				
-				
-				if (action.act.data.exdata) actions[acti].act.data.exdata = sa2json.buildJSON(actions[acti].act.data.exdata);
-			}
+	for (var acti in actions) {
+		let action = actions[acti];
+		if (["simpleassets", "simplemarket"].includes(action.act.account)  ) {
+			//console.log(this.actions[acti]);
+			if (action.act.data.idata) actions[acti].act.data.idata = sa2json.buildJSON(actions[acti].act.data.idata);
+			if (action.act.data.mdata) actions[acti].act.data.mdata = sa2json.buildJSON(actions[acti].act.data.mdata);
+			if (action.act.data.ixdata) actions[acti].act.data.ixdata = sa2json.buildJSON(actions[acti].act.data.ixdata);
+			if (action.act.data.mxdata) actions[acti].act.data.mxdata = sa2json.buildJSON(actions[acti].act.data.mxdata);							
+			if (action.act.data.exdata) actions[acti].act.data.exdata = sa2json.buildJSON(actions[acti].act.data.exdata);
 		}
-		return actions;
+	}
+	return actions;
   }
 
   async loadAccountData(accountName: string): Promise<boolean> {
@@ -226,11 +225,7 @@ export class AccountService {
       }
 
       if (this.jsonData.actions) {
-        this.actions = await this.convertData(this.jsonData.actions);
-        
-		
-
-		
+        this.actions = await this.convertData(this.jsonData.actions);		
 		this.checkIrreversibility().catch(console.log);
         this.tableDataSource.data = this.actions;
       }

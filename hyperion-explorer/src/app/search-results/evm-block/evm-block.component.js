@@ -121,4 +121,3 @@ var EvmBlockComponent = /** @class */ (function () {
     return EvmBlockComponent;
 }());
 exports.EvmBlockComponent = EvmBlockComponent;
-//# sourceMappingURL=evm-block.component.js.map

@@ -67,21 +67,18 @@ export class SimpleAssetsComponent implements OnInit {
     return JSON.stringify(subitem, null, 2);
   }
 
-  isJSON(item) {
-        if (typeof item == "object" ) 
-			return true;
-	    try { 
-			item = JSON.parse(item); 
-		} catch (e) { 
-			return false;  
-		}
-        if (typeof item === "object" && item !== null) { 
-			return true;
-		}
-        
-		return false;
-        
+  isJSON(item): boolean {
+	if (typeof item == "object" ) 
+		return true;
+	try { 
+		item = JSON.parse(item); 
+	} catch (e) { 
+		return false;  
+	}
+	if (typeof item === "object" && item !== null) { 
+		return true;
+	}
+	return false;
   }
-  
-}
 
+}

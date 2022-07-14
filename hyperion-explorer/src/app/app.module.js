@@ -62,6 +62,7 @@ var evm_block_component_1 = require("./search-results/evm-block/evm-block.compon
 var evm_transaction_component_1 = require("./search-results/evm-transaction/evm-transaction.component");
 var ngx_json_viewer_1 = require("ngx-json-viewer");
 var launch_darkly_service_1 = require("./services/launch-darkly/launch-darkly.service");
+var ngx_google_analytics_1 = require("ngx-google-analytics");
 var CustomPaginator = /** @class */ (function (_super) {
     __extends(CustomPaginator, _super);
     function CustomPaginator(pagService) {
@@ -128,7 +129,9 @@ var AppModule = /** @class */ (function () {
                 expansion_1.MatExpansionModule,
                 router_1.RouterModule,
                 progress_spinner_1.MatProgressSpinnerModule,
-                ngx_json_viewer_1.NgxJsonViewerModule
+                ngx_json_viewer_1.NgxJsonViewerModule,
+                ngx_google_analytics_1.NgxGoogleAnalyticsModule.forRoot(environment_1.environment.trackingId),
+                ngx_google_analytics_1.NgxGoogleAnalyticsRouterModule,
             ],
             providers: [{ provide: paginator_1.MatPaginatorIntl, useClass: CustomPaginator }, launch_darkly_service_1.LaunchDarklyService],
             bootstrap: [app_component_1.AppComponent]
@@ -137,4 +140,3 @@ var AppModule = /** @class */ (function () {
     return AppModule;
 }());
 exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
