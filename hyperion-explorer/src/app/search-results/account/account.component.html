@@ -345,34 +345,80 @@
           <td mat-cell *matCellDef="let action" [ngStyle.gt-xs]="{'padding': '10px 10px 7px 0'}" data-label="Data">
 
             <!-- DETAILED ACTION DATA VIEW-->
-            <ng-container *ngIf="detailedView">
-
+            <ng-container *ngIf="detailedView">		
               <div *ngFor="let item of action['act']['data'] | keyvalue"
                    [ngClass]="{'data-item': objectKeyCount(action['act']['data']) > 1}">
-
                 <ng-container *ngIf="isArray(item.value) && action['act']['account'] !== 'eosio.evm' && action['act']['name'] !== 'raw'">
                   <span class="w-500">{{item.key}} [{{item.value.length}}]</span>:
-
                   <div style="margin-top: 5px" *ngFor="let subitem of item.value">
-
                     <ng-container *ngIf="getType(subitem) === 'string'">
-                      <div style="margin-left: 15px"><span class="break-word">• {{subitem}}</span></div>
+                      <div style="margin-left: 15px">
+                      	<span class="break-word" *ngIf="item.key!='assetids'; else isLink" >• {{subitem}}</span>
+                      	<ng-template #isLink>
+							 <a [routerLink]="['/assetid', subitem]" class="link-blue">
+								{{subitem}}
+							</a>
+						</ng-template>
+                      </div>
                     </ng-container>
-
                     <ng-container *ngIf="getType(subitem) === 'object'">
                       <div *ngFor="let elem of subitem | keyvalue"
                            [ngClass]="{'data-item': objectKeyCount(subitem) > 1}">
-                    <span class="w-500" style="margin-left: 15px">
-                      {{elem.key}}</span>: <span class="break-word">
-                        {{stringifyObject(elem.value)}}
-                      </span>
+						<span class="w-500" style="margin-left: 15px">{{elem.key}}</span>: 
+						<span *ngIf="elem.key != 'account'" class="break-word">
+							{{stringifyObject(elem.value)}}
+						</span>
+						<span *ngIf="elem.key == 'account'" class="break-word">
+							<a [routerLink]="['/account', elem.value]" class="link-blue">
+								{{elem.value}}
+							</a>
+						</span>
                       </div>
                     </ng-container>
-
                   </div>
-
                 </ng-container>
-
+				<ng-container *ngIf="getType(item.value) === 'string' && 
+									item.key != 'owner' && 
+									item.key != 'buyer' &&
+									item.key != 'category' &&
+									item.key != 'from' &&
+									item.key != 'to' 
+									
+							" >								
+					<span class="w-500">{{item.key}}</span>: <span> {{item.value}}</span> 				
+				</ng-container>		
+				<ng-container *ngIf="getType(item.value) === 'string' && 
+								item.key === 'owner' || 
+								item.key === 'buyer' ||
+								item.key === 'from' ||
+								item.key === 'to' 
+								" >								
+					<span class="w-500">{{item.key}}</span>: 
+					<a [routerLink]="['/account', item.value]" class="link-blue">
+						{{item.value}}
+					</a>
+				</ng-container>		
+				<ng-container *ngIf="getType(item.value) === 'object' && !isArray(item.value)">
+					<span class="w-500">{{item.key}} [{{objectKeyCount(item.value)}}]</span>:
+					<div *ngFor="let elem of item.value | keyvalue"
+						   [ngClass]="{'data-item': objectKeyCount(item.value) > 1}">
+						<span class="w-500" style="margin-left: 15px">{{elem.key}}</span>: 
+						<span *ngIf="getType(elem.value) != 'object'; else isObject"  class="break-word">
+							<ng-container *ngIf="elem.key != 'seriesObjectAssetId'; else isSeriesobj">
+								{{stringifyObject(elem.value)}}
+							</ng-container>
+							<ng-template #isSeriesobj >
+								<a [routerLink]="['/assetid', elem.value]" class="link-blue">
+									{{elem.value}}
+								</a>
+							</ng-template>
+						</span>					
+						<ng-template #isObject >
+							<!--<pre [ngStyle.gt-xs]="{'padding': '0px 20px', 'margin': '0px'}" >{{stringifyObject(elem.value)}}</pre>-->
+							<div class="break-word" [ngStyle.gt-xs]="{'padding': '0px 40px'}">{{stringifyObject(elem.value)}}</div>
+						</ng-template>
+					</div>		
+				</ng-container>
                 <ng-container *ngIf="!isArray(item.value)">
                   <ng-container
                     *ngIf="action['act']['account'] === 'eosio.evm' && action['act']['name'] === 'raw' && ['to','from','hash','value','block'].includes(item.key); else elseBlock">
@@ -402,17 +448,12 @@
                     <span *ngIf="!item.value" class="break-word" style="font-style: italic">empty</span>
                   </ng-template>
                 </ng-container>
-
               </div>
-
               <span *ngIf="getType(action['act']['data'])=== 'string'" class="break-word" style="font-style: italic">
-              {{action['act']['data']}}
-            </span>
-
+				{{action['act']['data']}}
+			  </span>
             </ng-container>
-
             <ng-container *ngIf="!detailedView">
-
             </ng-container>
           </td>
         </ng-container>

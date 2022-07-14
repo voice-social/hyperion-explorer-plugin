@@ -20,4 +20,3 @@ var PaginationService = /** @class */ (function () {
     return PaginationService;
 }());
 exports.PaginationService = PaginationService;
-//# sourceMappingURL=pagination.service.js.map

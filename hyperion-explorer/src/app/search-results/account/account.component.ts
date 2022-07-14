@@ -24,6 +24,7 @@ import {Title} from '@angular/platform-browser';
 import { LaunchDarklyService } from 'src/app/services/launch-darkly/launch-darkly.service';
 import { FeatureFlagName } from 'src/app/services/launch-darkly/featureFlags';
 
+
 interface Permission {
   perm_name: string;
   parent: string;
@@ -394,12 +395,10 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   changePage(event: PageEvent): void {
-
     // disable streaming if enabled
     if (this.accountService.streamClientStatus) {
       this.accountService.toggleStreaming();
     }
-
     const maxPages = Math.floor(event.length / event.pageSize);
     console.log(event);
     console.log(`${event.pageIndex} / ${maxPages}`);

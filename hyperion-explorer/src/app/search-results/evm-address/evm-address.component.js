@@ -124,4 +124,3 @@ var EvmAddressComponent = /** @class */ (function () {
     return EvmAddressComponent;
 }());
 exports.EvmAddressComponent = EvmAddressComponent;
-//# sourceMappingURL=evm-address.component.js.map

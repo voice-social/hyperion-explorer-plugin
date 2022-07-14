@@ -17,7 +17,7 @@ import {Title} from '@angular/platform-browser';
   styleUrls: ['./simple-assets.component.css']
 })
 export class SimpleAssetsComponent implements OnInit {
-  columnsToDisplay: string[] = ['contract', 'action', 'data', 'block_num'];
+  columnsToDisplay: string[] = ['tx', 'contract', 'action', 'data', 'block_num'];
   tx: any = {
       res: [],
       total: [],
@@ -65,5 +65,20 @@ export class SimpleAssetsComponent implements OnInit {
 
   stringifyObject(subitem: object): string {
     return JSON.stringify(subitem, null, 2);
-}
+  }
+
+  isJSON(item): boolean {
+	if (typeof item == "object" ) 
+		return true;
+	try { 
+		item = JSON.parse(item); 
+	} catch (e) { 
+		return false;  
+	}
+	if (typeof item === "object" && item !== null) { 
+		return true;
+	}
+	return false;
+  }
+
 }
