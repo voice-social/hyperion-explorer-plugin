@@ -85,10 +85,28 @@ export class TransactionComponent implements OnInit, OnDestroy {
 
   stringifyObject(subitem: object): string {
     return JSON.stringify(subitem, null, 2);
-}
+  }
 
   async reloadCountdownTimer(): Promise<void> {
     await this.accountService.updateLib();
     this.countdownTimer = Math.ceil((this.tx.actions[0].block_num - this.accountService.libNum) / 2);
+  }
+  
+  isArray(value: any): boolean {
+    return value !== null && typeof value === 'object' && value.length > 0;
+  }
+  
+  isJSON(item): boolean {
+	if (typeof item == "object" ) 
+		return true;
+	try { 
+		item = JSON.parse(item); 
+	} catch (e) { 
+		return false;  
+	}
+	if (typeof item === "object" && item !== null) { 
+		return true;
+	}
+	return false;
   }
 }

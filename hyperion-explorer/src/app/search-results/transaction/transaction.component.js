@@ -149,6 +149,23 @@ var TransactionComponent = /** @class */ (function () {
             });
         });
     };
+    TransactionComponent.prototype.isArray = function (value) {
+        return value !== null && typeof value === 'object' && value.length > 0;
+    };
+    TransactionComponent.prototype.isJSON = function (item) {
+        if (typeof item == "object")
+            return true;
+        try {
+            item = JSON.parse(item);
+        }
+        catch (e) {
+            return false;
+        }
+        if (typeof item === "object" && item !== null) {
+            return true;
+        }
+        return false;
+    };
     TransactionComponent = __decorate([
         (0, core_1.Component)({
             selector: 'app-transaction',
@@ -159,4 +176,3 @@ var TransactionComponent = /** @class */ (function () {
     return TransactionComponent;
 }());
 exports.TransactionComponent = TransactionComponent;
-//# sourceMappingURL=transaction.component.js.map

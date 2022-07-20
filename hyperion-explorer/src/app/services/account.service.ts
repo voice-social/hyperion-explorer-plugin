@@ -207,6 +207,17 @@ export class AccountService {
 			if (action.act.data.ixdata) actions[acti].act.data.ixdata = sa2json.buildJSON(actions[acti].act.data.ixdata);
 			if (action.act.data.mxdata) actions[acti].act.data.mxdata = sa2json.buildJSON(actions[acti].act.data.mxdata);							
 			if (action.act.data.exdata) actions[acti].act.data.exdata = sa2json.buildJSON(actions[acti].act.data.exdata);
+			
+			if (action.act.data.idata_json) delete actions[acti].act.data.idata_json;
+			if (action.act.data.mdata_json) delete actions[acti].act.data.mdata_json;
+			if (action.act.data.ixdata_json) delete actions[acti].act.data.ixdata_json;
+			if (action.act.data.mxdata_json) {
+				actions[acti].act.data.mxdata = actions[acti].act.data.mxdata_json;
+				delete actions[acti].act.data.mxdata_json;
+			}
+			if (action.act.data.exdata_json) delete actions[acti].act.data.exdata_json;
+			if (action.act.data.mxdata_key) delete actions[acti].act.data.mxdata_key;
+			if (action.act.data.mxdata_value) delete actions[acti].act.data.mxdata_value;
 		}
 	}
 	return actions;
@@ -251,8 +262,8 @@ export class AccountService {
       const q = this.getActionsUrl + accountName + '&global_sequence=0-' + maxGs + '&limit=50';
       const results = await this.httpClient.get(q).toPromise() as any;
       if (results.actions && results.actions.length > 0) {
-		 let cobertedActions = await this.convertData(results.actions);
-        this.actions.push(...cobertedActions);
+		let convertedActions = await this.convertData(results.actions);
+        this.actions.push(...convertedActions);
         this.tableDataSource.data = this.actions;
       }
     } catch (e) {
@@ -264,7 +275,8 @@ export class AccountService {
     this.loaded = false;
     try {
       const data = await this.httpClient.get(this.getTxUrl + txId).toPromise();
-      this.loaded = true;
+	  await this.convertData(data['actions']);
+	  this.loaded = true;
       return data;
     } catch (error) {
       console.log(error);
