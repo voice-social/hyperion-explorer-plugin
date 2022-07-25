@@ -293,6 +293,22 @@ var AccountService = /** @class */ (function () {
                             actions[acti].act.data.mxdata = sa2json.buildJSON(actions[acti].act.data.mxdata);
                         if (action.act.data.exdata)
                             actions[acti].act.data.exdata = sa2json.buildJSON(actions[acti].act.data.exdata);
+                        if (action.act.data.idata_json)
+                            delete actions[acti].act.data.idata_json;
+                        if (action.act.data.mdata_json)
+                            delete actions[acti].act.data.mdata_json;
+                        if (action.act.data.ixdata_json)
+                            delete actions[acti].act.data.ixdata_json;
+                        if (action.act.data.mxdata_json) {
+                            actions[acti].act.data.mxdata = actions[acti].act.data.mxdata_json;
+                            delete actions[acti].act.data.mxdata_json;
+                        }
+                        if (action.act.data.exdata_json)
+                            delete actions[acti].act.data.exdata_json;
+                        if (action.act.data.mxdata_key)
+                            delete actions[acti].act.data.mxdata_key;
+                        if (action.act.data.mxdata_value)
+                            delete actions[acti].act.data.mxdata_value;
                     }
                 }
                 return [2 /*return*/, actions];
@@ -346,7 +362,7 @@ var AccountService = /** @class */ (function () {
     };
     AccountService.prototype.loadMoreActions = function (accountName) {
         return __awaiter(this, void 0, void 0, function () {
-            var firstAction, maxGs, q, results, cobertedActions, e_3;
+            var firstAction, maxGs, q, results, convertedActions, e_3;
             var _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
@@ -363,8 +379,8 @@ var AccountService = /** @class */ (function () {
                         if (!(results.actions && results.actions.length > 0)) return [3 /*break*/, 4];
                         return [4 /*yield*/, this.convertData(results.actions)];
                     case 3:
-                        cobertedActions = _b.sent();
-                        (_a = this.actions).push.apply(_a, cobertedActions);
+                        convertedActions = _b.sent();
+                        (_a = this.actions).push.apply(_a, convertedActions);
                         this.tableDataSource.data = this.actions;
                         _b.label = 4;
                     case 4: return [3 /*break*/, 6];
@@ -386,18 +402,21 @@ var AccountService = /** @class */ (function () {
                         this.loaded = false;
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 3, , 4]);
+                        _a.trys.push([1, 4, , 5]);
                         return [4 /*yield*/, this.httpClient.get(this.getTxUrl + txId).toPromise()];
                     case 2:
                         data = _a.sent();
+                        return [4 /*yield*/, this.convertData(data['actions'])];
+                    case 3:
+                        _a.sent();
                         this.loaded = true;
                         return [2 /*return*/, data];
-                    case 3:
+                    case 4:
                         error_2 = _a.sent();
                         console.log(error_2);
                         this.loaded = true;
                         return [2 /*return*/, null];
-                    case 4: return [2 /*return*/];
+                    case 5: return [2 /*return*/];
                 }
             });
         });
